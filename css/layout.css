@@ -1,0 +1,114 @@
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    background: #FAFAFA;
+    color: #555;
+}
+
+/*
+* Helpers
+*/
+.hide {
+    display: none;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.image {
+    max-width: 100%;
+}
+
+/*
+* Header
+*/
+.navbar {
+    background: linear-gradient(49deg, rgb(41, 46, 62) 0%, rgb(41, 46, 62) 0%, rgb(38, 62, 74) 70%, rgb(20, 50, 100) 100%) !important;
+    position: fixed;
+    width: 100%;
+    z-index: 1010;
+    padding: 0 20px;
+    font-size: 15px;
+}
+.navbar .site-logo {
+    padding-top: 3px;
+}
+.navbar .right {
+    line-height: 1.2em;
+}
+.navbar .right a {
+    color: #8BA3F3;
+}
+.navbar .welcome {
+    padding: 0 20px 0 0;
+    text-align: left !important;
+    float: left !important;
+    position: absolute;
+    right: 0;
+}
+.navbar .welcome a:hover {
+    text-decoration: none;
+}
+.topbar-bottom {
+    background: #DDD !important;
+    border-top: 1px solid #BBB;
+    padding: 5px 10px;
+    width: 100%;
+}
+.topbar-bottom ul {
+    margin: 0;
+    padding: 0;
+}
+.topbar-bottom li {
+    list-style: none;
+    text-align: center;
+}
+.topbar-bottom a {
+    color: #444;
+    text-decoration: none;
+}
+.topbar-bottom a.active {
+    color: #4F519A;
+}
+.bottom-bar-extended {
+    display: none;
+    text-align: left;
+}
+.bottom-bar-extended li {
+    display: block;
+    padding: 10px 20px;
+    margin: 10px;
+    border-top: 1px solid #FFF;
+}
+
+/*
+* Sticky sidebar
+*/
+.sticky-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 80px;
+}
+.sticky-sidebar::before,
+.sticky-sidebar::after {
+    content: '';
+    display: table;
+}
+
+/*
+* Tables
+*/
+table a:hover {
+    text-decoration: none;
+}
+table.touchable {
+    cursor: pointer;
+}
+.today {
+    background: #FFF;
+    border: 1px solid #CCC;
+    min-height: 250px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+.today table td {
+    padding: 3px;
+}

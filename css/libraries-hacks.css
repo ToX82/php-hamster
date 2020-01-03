@@ -1,0 +1,174 @@
+/*
+* Bootstrap
+*/
+table {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+table.compact td {
+    padding: 5px 5px 5px 10px;
+    vertical-align: middle;
+}
+table.compact input {
+    margin-bottom: 0 !important;
+}
+table.verycompact {
+    margin-bottom: 7px;
+}
+table.verycompact th {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 7px 5px 3px;
+}
+table.verycompact td {
+    padding: 2px 5px;
+}
+table.verycompact input {
+    margin-bottom: 0 !important;
+}
+.alert.alert-info p {
+    margin-bottom: 0.5rem;
+}
+.modal {
+    max-height: 85%;
+}
+.main-content {
+    padding-top: 120px;
+}
+.sidebar {
+    padding-top: 120px;
+    min-height: 100vh;
+    max-width: 350px;
+}
+.row.nomargin {
+    margin: 0;
+}
+.card-item {
+    list-style: none;
+    padding: 8px 0;
+    border-bottom: 1px solid #AAA;
+}
+.custom-badge {
+    color: #000 !important;
+    width: 80%;
+    height: auto !important;
+    border-radius: 10px 0 0 10px;
+    text-shadow: 0 0 8px #FFF;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    font-size: 100%;
+    overflow: hidden;
+    white-space: unset;
+}
+.btn-floating svg {
+    vertical-align: -0.35em !important;
+}
+span.label {
+    color: #343A40;
+}
+.fixed-action-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+.fixed-action-btn .btn {
+    border-radius: 50%;
+}
+.card-header select {
+    padding: 0 10px;
+}
+.no-padding {
+    padding: 0;
+}
+
+/*
+* Autocomplete
+*/
+
+.autocomplete {
+    z-index: 999;
+    position: relative;
+}
+.autocompleteWrapper {
+    display: block;
+    position: absolute;
+    max-width: 100%;
+    min-width: 250px;
+    min-height: 20px;
+    background: #FFF;
+    border: 1px solid #CCC;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+}
+.autocompleteWrapper .item {
+    display: block;
+    cursor: default;
+    line-height: 2;
+    width: 100%;
+    padding: 7px 20px;
+}
+.autocompleteWrapper .item:hover {
+    color: #FFF;
+    background: #0AAF94;
+}
+.autocompleteWrapper .inverted {
+    padding: 0.3em;
+    background: #0AAF94;
+}
+.autocompleteWrapper .inverted a {
+    color: #FFF;
+}
+.autocompleteWrapper .inverted:hover {
+    color: #FFF;
+    background: #088B75;
+}
+
+/*
+* Datatables
+*/
+div.dataTables_wrapper div.dataTables_length select {
+    height: 35px;
+    width: 50px;
+}
+
+/*
+* Media CSS
+*/
+@media (max-width: 800px) {
+
+    body {
+        font-size: 11px;
+    }
+    .sidebar {
+        min-height: auto;
+        width: 60%;
+        max-width: 60% !important;
+        margin: 0 20% 20px;
+        padding: 10px 0;
+    }
+    .main-content {
+        margin-bottom: 40px;
+        padding-bottom: 80px;
+        padding-top: 0;
+    }
+    .fixed-action-btn {
+        bottom: 65px;
+    }
+    .topbar {
+        display: none;
+    }
+    .topbar-bottom {
+        display: auto;
+    }
+    .card {
+        margin-top: 20px;
+    }
+}
+
+@media (min-width: 800px) {
+
+    .topbar {
+        display: auto;
+    }
+    .topbar-bottom {
+        display: none;
+    }
+}

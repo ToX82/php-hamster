@@ -1,0 +1,45 @@
+body {
+    background: #FFF !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 3px;
+}
+.mt-1,
+.mt-2,
+.mt-3,
+.mt-4,
+.mt-5 {
+    margin-top: 10px !important;
+}
+.noprint {
+    display: none;
+}
+.container,
+.container-fluid,
+.main-content {
+    padding-top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100%;
+}
+.main-content {
+    margin-top: 0;
+}
+.card {
+    width: 100%;
+}
+.card-header,
+.card-body {
+    padding: 3px 10px;
+}
+.card-body table {
+    margin-bottom: 0;
+}
+.card-body th,
+.card-body td {
+    padding: 0 !important;
+}
