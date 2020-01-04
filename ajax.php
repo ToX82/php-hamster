@@ -1,11 +1,7 @@
 <?php
-include("libs/libs.php");
-include("libs/utilities.php");
-
-if (checkExist('save-data')) {
-    $sessions = new logics\Sessions();
-    $data = filterArray($_POST);
-    $return = $sessions->saveData($data);
-}
+include "config.php";
+include "libs/libs.php";
+init();
+require_once BASE_PATH . 'routers/router.activities.php';
 
 echo json_encode($return);

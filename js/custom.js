@@ -1,24 +1,52 @@
 $(document).ready(function() {
     $('.start-tracking').on('click', function() {
-        startTracking();
+        startTracking(true);
     });
     $('.stop-tracking').on('click', function() {
         stopTracking();
     });
+
+    if ($('.current').length > 0) {
+        var activity = $('.current td:nth(2)').html();
+        var tag = $('.current td:nth(3)').html();
+        $('#activity').val(activity);
+        $('#tag').val(tag);
+        startTracking(false);
+    }
 });
 
 var activityTimer;
 
-function startTracking() {
+function startTracking(isNew) {
     var activity = $('#activity').val();
     var tag = $('#tag').val();
     var time = getCurrentTime();
 
-    newActivity(activity, tag, time);
+    if (isNew === true) {
+        saveActivity({action: 'save-activity', id: null, activity: activity, tag: tag});
+        newActivity(activity, tag, time);
+    }
+
     updateTitle(activity, tag);
     startTimer();
     $('.start-tracking').addClass('hide');
     $('.stop-tracking').removeClass('hide');
+}
+
+function saveActivity(data) {
+    var url = 'http://localhost/php-hamster/ajax.php/save-activity';
+    var $row = $('.today tbody .current');
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: data
+    }).done(function(data) {
+        $row.attr('data-id', data);
+    }).fail(function(jqXHR, textStatus) {
+        console.log('Impossibile effettuare la ricerca');
+        console.log(textStatus);
+    });
 }
 
 function newActivity(activity, tag, startTime) {
@@ -58,16 +86,18 @@ function stopTracking() {
     var $activity = $('.today .current');
     var title = $('.titles .activity').attr('data-stopped');
     var start = $activity.find('td:nth(0)').html();
+    var id = $activity.attr('data-id');
     var end = getCurrentTime();
     var diff = getTimeDiff(start, end);
     updateTitle(title, '');
+    saveActivity({action: 'save-activity', id: id, end: end, diff: diff});
     $('.start-tracking').removeClass('hide');
     $('.stop-tracking').addClass('hide');
     $activity.removeClass('current');
     clearInterval(activityTimer);
 
     $activity.find('td:nth(1)').html(end);
-    $activity.find('td:nth(4)').html(diff);
+    $activity.find('td:nth(4)').html(diff + ' min');
 }
 
 function getCurrentTime() {
@@ -81,5 +111,5 @@ function getTimeDiff(start, end) {
     var end = moment(end, 'HH:mm:ss');
     var diff = moment(end, 'HH:mm:ss').diff(moment(start, 'HH:mm:ss'));
 
-    return moment(diff).format('H[h] mm[min] ss[sec]');
+    return moment(diff).format('m');
 }

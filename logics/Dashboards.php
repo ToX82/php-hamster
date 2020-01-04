@@ -14,6 +14,8 @@ class Dashboards
     {
         $date = date('Y-m-d');
         $activities = Activities::listActivities($date, $date);
+        $current = Activities::listCurrentActivities();
+        $activities = array_merge($activities, $current);
 
         return $activities;
     }

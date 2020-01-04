@@ -29,11 +29,11 @@
         <table class="table compact">
             <tbody>
                 <?php foreach ($activities as $activity) { ?>
-                    <tr>
+                    <tr data-id="<?= $activity['id'] ?>" class="<?= $activity['current'] ?>">
                         <td style="width: 100px"><?= $activity['start'] ?></td>
                         <td style="width: 100px"><?= $activity['end'] ?></td>
-                        <td style="width: "><?= $activity['activity'] ?></td>
-                        <td style="width: "><?= $activity['tag'] ?></td>
+                        <td style="width: auto"><?= $activity['activity'] ?></td>
+                        <td style="width: auto"><?= $activity['tag'] ?></td>
                         <td style="width: 130px"><?= $activity['duration_minutes'] ?> min</td>
                         <td style="width: 50px"></td>
                     </tr>

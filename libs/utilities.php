@@ -137,6 +137,17 @@ function nomiMesi($key)
     return $mesi[$key];
 }
 
+function timeDiffMinutes($start, $end)
+{
+    $start_date = new DateTime($start);
+    $since_start = $start_date->diff(new DateTime($end));
+
+    $minutes = $since_start->days * 24 * 60;
+    $minutes += $since_start->h * 60;
+    $minutes += $since_start->i;
+    return $minutes;
+}
+
 /**
  * Time tracker
  *
