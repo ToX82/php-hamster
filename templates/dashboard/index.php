@@ -10,12 +10,12 @@
 <div class="row mt-3 mb-5">
     <div class="col-12 col-md-5">
         <div class="form-group">
-            <input type="text" class="form-control" id="activity" placeholder="<?= __('activity') ?>">
+            <input type="text" class="form-control autocomplete" autocomplete="off" id="activity" placeholder="<?= __('activity') ?>">
         </div>
     </div>
     <div class="col-12 col-md-5">
         <div class="form-group">
-            <input type="text" class="form-control" id="tag" placeholder="<?= __('tag') ?>">
+            <input type="text" class="form-control autocomplete" autocomplete="off" id="tag" placeholder="<?= __('tag') ?>">
         </div>
     </div>
     <div class="col-12 col-md-2 text-right">

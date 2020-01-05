@@ -112,3 +112,44 @@ table.touchable {
 .today table td {
     padding: 3px;
 }
+
+/*
+* Autocomplete
+*/
+.autocomplete {
+    z-index: 999;
+    position: relative;
+}
+.autocompleteWrapper {
+    display: block;
+    position: absolute;
+    max-width: 100%;
+    min-width: 250px;
+    min-height: 20px;
+    background: #FFF;
+    border: 1px solid #CCC;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+}
+.autocompleteWrapper .item {
+    display: block;
+    cursor: default;
+    line-height: 2;
+    width: 100%;
+    padding: 7px 20px;
+}
+.autocompleteWrapper .item:hover {
+    color: #FFF;
+    background: #0AAF94;
+}
+.autocompleteWrapper .inverted {
+    padding: 0.3em;
+    background: #0AAF94;
+}
+.autocompleteWrapper .inverted a {
+    color: #FFF;
+}
+.autocompleteWrapper .inverted:hover {
+    color: #FFF;
+    background: #088B75;
+}

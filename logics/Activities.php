@@ -122,4 +122,21 @@ class Activities
 
         return $data['id'];
     }
+
+    public function autocomplete($params)
+    {
+        $field = $params['field'];
+        if (!in_array($field, ['activity', 'tag'])) {
+            return [];
+        }
+
+        $data = getDb(
+            "SELECT COUNT($field) AS count, $field AS name, MAX(start) AS data
+            FROM activities
+            GROUP BY $field
+            ORDER BY data DESC, count DESC"
+        );
+
+        return $data;
+    }
 }
