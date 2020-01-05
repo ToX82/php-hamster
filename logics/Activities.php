@@ -29,8 +29,10 @@ class Activities
         $data = getDb(
             "SELECT
                 id,
-                TIME(start) AS start,
-                TIME(end) AS end,
+                start,
+                end,
+                TIME(start) AS time_start,
+                TIME(end) AS time_end,
                 activity,
                 tag,
                 duration_minutes,
@@ -52,8 +54,10 @@ class Activities
         $data = getDb(
             "SELECT
                 id,
-                TIME(start) AS start,
-                TIME(end) AS end,
+                start,
+                end,
+                TIME(start) AS time_start,
+                TIME(end) AS time_end,
                 activity,
                 tag,
                 duration_minutes,
@@ -102,14 +106,15 @@ class Activities
     public function update($data)
     {
         $activity = $this->get($data['id']);
-        $duration = timeDiffMinutes($activity[0]['start'], $activity[0]['end']);
+        $end = date('Y-m-d H:i:s');
+        $duration = timeDiffMinutes($activity[0]['start'], $end);
 
         setDb(
             "UPDATE activities
             SET end = :end, duration_minutes = :duration_minutes
             WHERE id = :id",
             [
-                'end' => date('Y-m-d H:i:s'),
+                'end' => $end,
                 'duration_minutes' => $duration,
                 'id' => $data['id']
             ]

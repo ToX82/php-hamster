@@ -145,6 +145,7 @@ function timeDiffMinutes($start, $end)
     $minutes = $since_start->days * 24 * 60;
     $minutes += $since_start->h * 60;
     $minutes += $since_start->i;
+
     return $minutes;
 }
 

@@ -70,5 +70,7 @@
 
     <script src="<?= buildAssetUrl("js/layout.js") ?>"></script>
     <script src="<?= buildAssetUrl("js/custom.js") ?>"></script>
+
+    <span class="baseUrl hide"><?= BASE_URL ?></span>
 </body>
 </html>

@@ -29,9 +29,9 @@
         <table class="table compact">
             <tbody>
                 <?php foreach ($activities as $activity) { ?>
-                    <tr data-id="<?= $activity['id'] ?>" class="<?= $activity['current'] ?>">
-                        <td style="width: 100px"><?= $activity['start'] ?></td>
-                        <td style="width: 100px"><?= $activity['end'] ?></td>
+                    <tr data-id="<?= $activity['id'] ?>" data-start="<?= $activity['start'] ?>" class="<?= $activity['current'] ?>">
+                        <td style="width: 100px" title="<?= $activity['start'] ?>"><?= $activity['time_start'] ?></td>
+                        <td style="width: 100px" title="<?= $activity['end'] ?>"><?= $activity['time_end'] ?></td>
                         <td style="width: auto"><?= $activity['activity'] ?></td>
                         <td style="width: auto"><?= $activity['tag'] ?></td>
                         <td style="width: 130px"><?= $activity['duration_minutes'] ?> min</td>
