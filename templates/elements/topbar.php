@@ -5,6 +5,7 @@
     <div class="collapse navbar-collapse" id="topBar">
         <ul class="navbar-nav">
             <?php if (isset($_SESSION['Usr'])) { ?>
+                <li class="nav-item"><a class="nav-link <?= checkPage('/history', 'active') ?>" href="<?= buildUrl("history") ?>"><?= __('history') ?></a></li>
             <?php } ?>
 
             <?php if (isset($_SESSION['Admin'])) { ?>

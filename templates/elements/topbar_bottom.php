@@ -12,10 +12,17 @@
     <?php } else { ?>
         <ul class="d-flex justify-content-around">
             <li>
-                <a class="<?= checkPage('//dashboard', 'active') ?>" href="<?= buildUrl("") ?>">
+                <a class="<?= checkPage('/dashboard', 'active') ?>" href="<?= buildUrl("") ?>">
                     <span class="iconify" data-icon="ant-design:home-outline" data-inline="false" data-width="30" data-height="30"></span>
                     <br>
                     <?= __('home_page') ?>
+                </a>
+            </li>
+            <li>
+                <a class="<?= checkPage('/history', 'active') ?>" href="<?= buildUrl("history") ?>">
+                <span class="iconify" data-icon="gridicons:history" data-inline="false" data-width="30"></span>
+                    <br>
+                    <?= __('history') ?>
                 </a>
             </li>
             <li>
