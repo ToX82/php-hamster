@@ -122,16 +122,21 @@ class Users
         $tokenLength = 80;
         $token = substr(bin2hex(random_bytes(ceil($tokenLength))), 0, $tokenLength);
         $expires = time() + (86400 * 30);
+        $browser = parse_user_agent();
+        $browser = $browser['browser'] . " " . $browser['version'] . " on " . $browser['platform'];
+        $ip = getUserIpAddr();
 
         setDb(
             "INSERT INTO autologins
-            (email, token, created, expires)
-            VALUES ( :email, :token, :created, :expires )",
+            (email, token, created, expires, browser, ip)
+            VALUES ( :email, :token, :created, :expires, :browser, :ip )",
             [
                 'email' => $user['email'],
                 'token' => $token,
                 'created' => date('Y-m-d H:i:s'),
-                'expires' => date('Y-m-d H:i:s', $expires)
+                'expires' => date('Y-m-d H:i:s', $expires),
+                'browser' => $browser,
+                'ip' => $ip
             ]
         );
 
