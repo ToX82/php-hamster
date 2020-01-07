@@ -8,9 +8,13 @@ $users = new logics\Users();
 $views = [];
 $sidebar = 'sidebar';
 
-require_once BASE_PATH . 'routers/router.public.php';
-
 // Pagine visibili da tutti (loggati oppure no)
+if (isPage('setlang')) {
+    $lang = filterString(1);
+    setCookieLanguage($lang);
+    reload('/');
+}
+
 if (isPage('login')) {
     if (checkExistPost("email")) {
         $users->login();
@@ -18,6 +22,7 @@ if (isPage('login')) {
     $layout = 'fullwidth';
     $views[] = "templates/users/login.php";
 }
+
 if (isPage('register')) {
     $pageTitle = "Registrazione";
     $layout = 'fullwidth';
@@ -30,6 +35,7 @@ if (isPage('register')) {
     }
     $views[] = "templates/users/register.php";
 }
+
 if (isPage('logout')) {
     $users->logout();
 }
@@ -40,14 +46,6 @@ if (!isset($_SESSION['Usr'])) {
         $users->autologin();
     } elseif (empty($views)) {
         reload('login');
-    }
-}
-
-// Se l'utente è un admin prelevo la lista di utenti
-if (isset($_SESSION['Admin'])) {
-    if (in_array($_SESSION['Admin']['role_name'], ['admin'])) {
-        $userId = $_SESSION['Admin']['id'];
-        $usersList = logics\Users::getRelatedUsers($userId);
     }
 }
 

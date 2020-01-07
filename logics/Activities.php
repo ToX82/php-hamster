@@ -126,6 +126,8 @@ class Activities
     public function autocomplete($params)
     {
         $field = $params['field'];
+        $search = $params['search'];
+
         if (!in_array($field, ['activity', 'tag'])) {
             return [];
         }
@@ -133,8 +135,13 @@ class Activities
         $data = getDb(
             "SELECT COUNT($field) AS count, $field AS name, MAX(start) AS data
             FROM activities
+            WHERE start BETWEEN (NOW() - INTERVAL 2 MONTH) AND NOW()
+            AND $field LIKE :search
             GROUP BY $field
-            ORDER BY data DESC, count DESC"
+            ORDER BY data DESC, count DESC",
+            [
+                'search' => "%" . $search . "%"
+            ]
         );
 
         return $data;

@@ -145,6 +145,13 @@ function timeDiffMinutes($start, $end)
     $minutes = $since_start->days * 24 * 60;
     $minutes += $since_start->h * 60;
     $minutes += $since_start->i;
+    $seconds = $since_start->s;
+
+    // If there are more than 30 spare seconds
+    // we'll add 1 minute to the final count
+    if ($seconds >= 30) {
+        $minutes = $minutes + 1;
+    }
 
     return $minutes;
 }

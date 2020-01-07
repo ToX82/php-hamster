@@ -11,6 +11,7 @@ $(document).ready(function() {
         var $container = $(this).parent();
         var $wrapper = null;
         var search = $this.val();
+        var searchType = $this.attr('id');
 
         if ($container.find('.autocompleteWrapper').length < 1) {
             $body.append('<div class="overlay"></div>');
@@ -19,7 +20,7 @@ $(document).ready(function() {
         }
         $wrapper = $container.find('.autocompleteWrapper');
 
-        $.when(ajaxCall(search)).then(function(data) {
+        $.when(ajaxCall(search, searchType)).then(function(data) {
             data = JSON.parse(data);
             createOptions(data, $wrapper);
         });
@@ -44,9 +45,10 @@ $(document).ready(function() {
         var $this = $(this);
         var $wrapper = $this.parent().find('.autocompleteWrapper');
         var search = $this.val();
+        var searchType = $this.attr('id');
 
-        debouncer(function(){
-            $.when(ajaxCall(search)).then(function(data) {
+        debouncer(function() {
+            $.when(ajaxCall(search, searchType)).then(function(data) {
                 data = JSON.parse(data);
                 createOptions(data, $wrapper);
             });
@@ -104,7 +106,7 @@ $(document).ready(function() {
         $wrapper.append(items);
     }
 
-    function ajaxCall(search) {
+    function ajaxCall(search, searchType) {
         var baseUrl = $('.baseUrl').html();
         var url = baseUrl + 'ajax.php';
 
@@ -113,7 +115,7 @@ $(document).ready(function() {
             url: url,
             data: {
                 action: 'autocomplete',
-                field: 'tag',
+                field: searchType,
                 search: search
             },
             timeout: 3000
