@@ -79,6 +79,30 @@ function toDate($date, $delimiter = ".")
     return date('d' . $delimiter . 'm' . $delimiter . 'Y', strtotime($date));
 }
 
+function toMysqlDate($date)
+{
+    return date('Y-m-d', strtotime($date));
+}
+
+/**
+ * Transforms minutes to Xh YYmin
+ * In a horrible way. Better solutions are welcome
+ *
+ * @param int $minutes Minutes
+ * @return string
+ */
+function toHours($minutes)
+{
+    $hours = floor($minutes / 60);
+    $minutes = $minutes % 60;
+
+    if ($hours > 0) {
+        return $hours . "h " . $minutes . "min";
+    }
+
+    return $minutes . "min";
+}
+
 /**
  * Trasforma data e ora in formato italiano
  *
@@ -109,32 +133,6 @@ function toTime($date, $delimiter = ".")
     }
 
     return date('H:i', strtotime($date));
-}
-
-/**
- * Traduce in italiano il nome del mese
- *
- * @param int $key Numero del mese
- * @return string
- */
-function nomiMesi($key)
-{
-    $mesi = [
-        'Gennaio',
-        'Febbraio',
-        'Marzo',
-        'Aprile',
-        'Maggio',
-        'Giugno',
-        'Luglio',
-        'Agosto',
-        'Settembre',
-        'Ottobre',
-        'Novembre',
-        'Dicembre',
-    ];
-
-    return $mesi[$key];
 }
 
 function timeDiffMinutes($start, $end)
@@ -211,31 +209,11 @@ function encryptPassword(string $pass)
     return $pass;
 }
 
-/**
- * Adds a log record in the activities table
- *
- * @param integer $subjectId ID Oggetto
- * @param string $subjectType Nome oggetto
- * @param string $action Azione
- * @param string $info Informazioni aggiuntive
- * @return void
- */
-function addLog(int $subjectId, string $subjectType, string $action, string $info)
+function sortArray($a, $b)
 {
-    $userId = $_SESSION['Usr']['id'];
+    if ($a == $b) {
+        return 0;
+    }
 
-    setDb(
-        "INSERT INTO activities
-        (user_id, subject_id, subject_type, action, info, created_at, updated_at)
-        VALUES (:user_id, :subject_id, :subject_type, :action, :info, :created_at, :updated_at)",
-        [
-            'user_id' => $userId,
-            'subject_id' => $subjectId,
-            'subject_type' => $subjectType,
-            'action' => $action,
-            'info' => $info,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ]
-    );
+    return ($a > $b) ? -1 : 1;
 }

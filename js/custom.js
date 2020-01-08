@@ -7,8 +7,8 @@ $(document).ready(function() {
     });
 
     if ($('.current').length > 0) {
-        var activity = $('.current td:nth(2)').html();
-        var tag = $('.current td:nth(3)').html();
+        var activity = $('.current td:nth(2)').contents().get(0).nodeValue;
+        var tag = $('.current td:nth(2) span').contents().get(0).nodeValue;
         $('#activity').val(activity);
         $('#tag').val(tag);
         startTracking(false);
@@ -54,8 +54,7 @@ function newActivity(activity, tag, start, startTime) {
     var $row = $('<tr data-start="' + start + '" class="current"></tr>');
     $row.append('<td style="width: 100px">' + startTime + '</td>');
     $row.append('<td style="width: 100px"></td>');
-    $row.append('<td style="width: ">' + activity + '</td>');
-    $row.append('<td style="width: ">' + tag + '</td>');
+    $row.append('<td style="width: ">' + activity + '<span class="tag">' + tag + '</span></td>');
     $row.append('<td style="width: 130px">0 min</td>');
     $row.append('<td style="width: 50px"></td>');
 
@@ -64,33 +63,51 @@ function newActivity(activity, tag, start, startTime) {
 
 function updateTitle(activity, tag) {
     var $activity = $('.titles .activity');
-    var $tag = $('.titles .tag');
+    var $tag = $('.titles .bigtag');
 
     $activity.html(activity);
     $tag.html(tag);
+
+    $tag.removeClass('hide');
+    if (tag === '') {
+        $tag.addClass('hide');
+    }
 }
 
 var activityTimer;
 function startTimer() {
     var $activity = $('.today .current');
+    var $dashboardTotal = $('.dashboard-total');
     var start = $activity.attr('data-start');
+    var dashboardTotalMinutes = $dashboardTotal.attr('data-value');
 
     activityTimer = setInterval(function() {
         var end = getCurrentTime(false);
         var diff = getTimeDiff(start, end);
+        var newTotal = parseInt(diff) + parseInt(dashboardTotalMinutes);
 
-        $activity.find('td:nth(4)').html(diff + ' min');
+        diff = toHours(diff);
+        newTotal = toHours(newTotal);
+
+        $activity.find('td:nth(3)').html(diff);
+        $dashboardTotal.find('span').html(newTotal);
     }, 2000);
 }
 
 function stopTracking() {
     var $activity = $('.today .current');
+    var $dashboardTotal = $('.dashboard-total');
+    var dashboardTotalMinutes = $dashboardTotal.attr('data-value');
     var title = $('.titles .activity').attr('data-stopped');
     var start = $activity.attr('data-start');
     var id = $activity.attr('data-id');
     var end = getCurrentTime(false);
     var endTime = getCurrentTime(true);
     var diff = getTimeDiff(start, end);
+    var newTotal = parseInt(diff) + parseInt(dashboardTotalMinutes);
+    diff = toHours(diff);
+    newTotal = toHours(newTotal);
+
     updateTitle(title, '');
     saveActivity({action: 'save-activity', id: id});
     $('.start-tracking').removeClass('hide');
@@ -99,7 +116,8 @@ function stopTracking() {
     clearInterval(activityTimer);
 
     $activity.find('td:nth(1)').html(endTime);
-    $activity.find('td:nth(4)').html(diff + ' min');
+    $activity.find('td:nth(3)').html(diff);
+    $dashboardTotal.find('span').html(newTotal);
 }
 
 function getCurrentTime(timeOnly) {
@@ -126,4 +144,16 @@ function getTimeDiff(start, end) {
     }
 
     return minutes;
+}
+
+function toHours(minutes)
+{
+    hours = Math.floor(minutes / 60);
+    minutes = minutes % 60;
+
+    if (hours > 0) {
+        return hours + 'h ' + minutes + 'min';
+    }
+
+    return minutes + 'min';
 }

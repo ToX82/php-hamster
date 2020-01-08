@@ -10,6 +10,90 @@ class Activities
         return $data;
     }
 
+    public function history($data = null)
+    {
+        $search = (isset($data['search'])) ? $data['search'] : '';
+        $start = (isset($data['start'])) ? $data['start'] : date('Y-m-1');
+        $end = (isset($data['end'])) ? $data['end'] : date('Y-m-t');
+
+        $activities = [];
+        $totalsPerDay = [];
+        $totalsAct = [];
+        $totalsTags = [];
+        for ($date = strtotime($start); $date <= strtotime($end); $date = strtotime("+1 day", $date)) {
+            $day = date("Y-m-d", $date);
+            $data = $this->listActivities($day, $day, $search);
+
+            $activities[$day] = $data;
+            if (!isset($totalsPerDay[$day])) {
+                $totalsPerDay[$day] = 0;
+            }
+
+            $keyAct = '';
+            $keyTag = '';
+            foreach ($data as $record) {
+                $keyAct = $record['activity'];
+                $keyTag = $record['tag'];
+
+                if (!isset($totalsAct[$keyAct])) {
+                    $totalsAct[$keyAct] = 0;
+                }
+                if (!isset($totalsTags[$keyTag])) {
+                    $totalsTags[$keyTag] = 0;
+                }
+
+                $totalsPerDay[$day] = $totalsPerDay[$day] + $record['duration_minutes'];
+                $totalsAct[$keyAct] = $totalsAct[$keyAct] + $record['duration_minutes'];
+                $totalsTags[$keyTag] = $totalsTags[$keyTag] + $record['duration_minutes'];
+            }
+        }
+
+        uasort($totalsAct, "sortArray");
+        uasort($totalsTags, "sortArray");
+
+        return [
+            'start' => $start,
+            'end' => $end,
+            'startNice' => toDate($start, '/'),
+            'endNice' => toDate($end, '/'),
+            'search' => $search,
+            'activities' => $activities,
+            'totalsAct' => $totalsAct,
+            'totalsTags' => $totalsTags,
+            'totalsPerDay' => $totalsPerDay,
+            'topAct' => array_values($totalsAct)[0],
+            'topTags' => array_values($totalsTags)[0]
+        ];
+    }
+
+    /**
+     * Preleva i dati per la dashboard
+     *
+     * @return array
+     */
+    public function dashboard($start = null, $end = null)
+    {
+        if ($start === null) {
+            $start = date('Y-m-d');
+        }
+        if ($end === null) {
+            $end = date('Y-m-d');
+        }
+        $pastActivities = $this->listActivities($start, $end, '');
+        $current = $this->listCurrentActivities();
+        $activities = array_merge($pastActivities, $current);
+        $pastDuration = 0;
+
+        foreach ($pastActivities as $record) {
+            $pastDuration = $pastDuration + $record['duration_minutes'];
+        }
+
+        return [
+            'activities' => $activities,
+            'duration_total' => $pastDuration
+        ];
+    }
+
     public function get($id)
     {
         $data = getDb(
@@ -24,8 +108,12 @@ class Activities
         return $data;
     }
 
-    public static function listActivities($start, $end)
+    public function listActivities($start, $end, $search = '')
     {
+        if ($search !== '') {
+            $search = ' AND (activity LIKE "%' . $search . '%" OR tag LIKE "%' . $search . '%")';
+        }
+
         $data = getDb(
             "SELECT
                 id,
@@ -38,13 +126,18 @@ class Activities
                 duration_minutes,
                 '' AS current
             FROM activities
-            WHERE DATE(start) = :start
-            AND DATE(end) = :end",
+            WHERE DATE(start) >= :start
+            AND DATE(end) <= :end
+            $search",
             [
                 'start' => $start,
                 'end' => $end
             ]
         );
+
+        foreach ($data as $key => $value) {
+            $data[$key]['duration_nice'] = toHours($value['duration_minutes']);
+        }
 
         return $data;
     }
@@ -61,6 +154,7 @@ class Activities
                 activity,
                 tag,
                 duration_minutes,
+                0 AS duration_nice,
                 'current' AS current
             FROM activities
             WHERE end IS NULL",

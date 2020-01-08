@@ -78,6 +78,13 @@ span.label {
 .no-padding {
     padding: 0;
 }
+fieldset {
+    border: 1px solid #BBB;
+}
+legend {
+    width: auto;
+    padding: 0 10px;
+}
 
 /*
 * Autocomplete

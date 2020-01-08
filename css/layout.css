@@ -105,12 +105,61 @@ table.touchable {
 .today {
     background: #FFF;
     border: 1px solid #CCC;
+    padding: 13px 10px;
     min-height: 250px;
     max-height: 50vh;
     overflow-y: auto;
 }
 .today table td {
     padding: 3px;
+}
+.today h4 span {
+    margin-right: 50px;
+}
+.today .tag {
+    margin-left: 10px;
+}
+.tag {
+    background: #FBF3BD;
+    border: 1px solid #CAC083;
+    padding: 0 3px 0 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.bigtag {
+    background: #FBF3BD;
+    border: 1px solid #CAC083;
+    padding: 0 3px 0 20px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+/*
+* Totals
+*/
+#totals .name {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 60%;
+    text-align: right;
+    padding-right: 5px;
+}
+#totals .graph {
+    display: inline-block;
+    width: 28%;
+    background: transparent;
+}
+#totals .bar {
+    display: block;
+    height: 1em;
+    background-color: #A5A5A5;
+}
+#totals .value {
+    display: inline-block;
+    width: 10%;
+    text-align: right;
 }
 
 /*

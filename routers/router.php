@@ -56,4 +56,4 @@ if (empty($params)) {
 
 // Carico gli altri routers
 require_once BASE_PATH . 'routers/router.users.php';
-require_once BASE_PATH . 'routers/router.dashboard.php';
+require_once BASE_PATH . 'routers/router.activities.php';

@@ -36,7 +36,7 @@
     "select_another_page": "Seleziona una voce dal menu laterale",
     "start_tracking": "Inizia tracking",
     "stop_tracking": "Ferma tracking",
-    "tag": "Tag",
+    "tag": "Etichetta",
     "thank_you_for_registering": "Grazie per esserti registrato!",
     "the_field_is_mandatory": "Questo campo \u00e8 obbligatorio",
     "user_created_correctly": "Utente creato correttamente",
@@ -55,6 +55,9 @@
     "you_will_receive_an_email_for_confirmation": "Ti verr\u00e0 inviata una mail per confermare la tua registrazione.",
     "user_not_valid": "Utente non valido",
     "activity": "Attività",
+    "activities": "Attività",
+    "totals": "Totali",
     "history": "Attività passate",
-    "sessions": "Sessioni"
+    "sessions": "Sessioni",
+    "todays_time": "Tempo totale oggi"
 }

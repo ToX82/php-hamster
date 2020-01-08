@@ -47,6 +47,29 @@ $(document).ready(function() {
     }
 
     /*
+    * Date picker
+    */
+    $('.datepicker').daterangepicker({
+        autoapply: true,
+        ranges: {
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment($('.dates-start').attr('data-nice'), 'DD/MM/YYYY'),
+        endDate: moment($('.dates-end').attr('data-nice'), 'DD/MM/YYYY'),
+        locale: {
+            format: 'DD MMM YYYY'
+        }
+    });
+    $('.datepicker').on('apply.daterangepicker', function(ev, picker) {
+        $('.dates-start').val(picker.startDate.format('YYYY-MM-DD'));
+        $('.dates-end').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).closest('form').submit();
+    });
+
+    /*
     * Toast per messaggi di sessione
     */
     if ($('.sessionMsg').length > 0) {
@@ -55,6 +78,17 @@ $(document).ready(function() {
             position: 'topRight',
             color: $('.sessionMsg').attr('data-color')
         });
+    }
+
+    // Save last tab's selection
+    $('a[data-toggle="pill"]').on('click', function (e) {
+        //save the latest tab; use cookies if you like 'em better:
+        localStorage.setItem('lastTab', $(e.target).attr('href'));
+    });
+    //go to the latest tab, if it exists:
+    var lastTab = localStorage.getItem('lastTab');
+    if (lastTab) {
+        $('a[href="' + lastTab + '"]').click();
     }
 });
 
