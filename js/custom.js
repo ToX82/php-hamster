@@ -318,6 +318,7 @@ function editRow($row) {
         $editModal.find('input[name=endtime]').val(endTime);
         $editModal.find('input[name=activity]').val(data.activity);
         $editModal.find('input[name=tag]').val(data.tag);
+        $editModal.find('.delete-modal-activity').show();
 
         if (data.end === null) {
             $editModal.find('input[name=tracking]').prop('checked', true).attr('checked', true);
@@ -340,6 +341,7 @@ function showEmptyModal() {
     $editModal.find('input[name=tag]').val('');
     $editModal.find('input[name=tracking]').prop('checked', true).attr('checked', true);
     $editModal.find('input[name=endtime]').attr('disabled', true);
+    $editModal.find('.delete-modal-activity').hide();
 }
 
 function endTrackingCheckbox($this) {
