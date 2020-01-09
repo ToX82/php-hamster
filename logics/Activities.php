@@ -3,6 +3,12 @@ namespace Logics;
 
 class Activities
 {
+    /**
+     * Validation rules
+     *
+     * @param array $data Dirty values
+     * @return array
+     */
     private function validate(array $data)
     {
         $data['duration_minutes'] = isset($data['duration_minutes']) ? intval($data['duration_minutes']): 0;
@@ -17,6 +23,12 @@ class Activities
         return $data;
     }
 
+    /**
+     * List historic activities
+     *
+     * @param array $data Filtering rules
+     * @return array
+     */
     public function history(array $data = [])
     {
         $search = (isset($data['search'])) ? $data['search'] : '';
@@ -74,7 +86,7 @@ class Activities
     }
 
     /**
-     * Preleva i dati per la dashboard
+     * Get today's data for the dashboard
      *
      * @return array
      */
@@ -112,6 +124,14 @@ class Activities
         return $data;
     }
 
+    /**
+     * Grabs a list of activities according to the selected parameters
+     *
+     * @param string $start Start date
+     * @param string $end End date
+     * @param string $search Search string
+     * @return array
+     */
     public function listActivities(string $start, string $end, string $search = '')
     {
         if ($search !== '') {
@@ -146,6 +166,11 @@ class Activities
         return $data;
     }
 
+    /**
+     * List unfinished activites
+     *
+     * @return array
+     */
     public static function listCurrentActivities()
     {
         $data = getDb(
@@ -169,6 +194,12 @@ class Activities
         return $data;
     }
 
+    /**
+     * Saves an activity, by creating a new one or updating an existing one
+     *
+     * @param array $data Activity data
+     * @return array
+     */
     public function save(array $data)
     {
         $data = $this->validate($data);
@@ -186,21 +217,12 @@ class Activities
         ];
     }
 
-    public function delete(int $id)
-    {
-        setDb(
-            "DELETE FROM activities WHERE id = :id",
-            [
-                'id' => $id
-            ]
-        );
-
-        return [
-            'status' => 'success',
-            'id' => $id
-        ];
-    }
-
+    /**
+     * Create a new activity
+     *
+     * @param array $data Activity data
+     * @return int
+     */
     public function create(array $data)
     {
         if (!isset($data['start'])) {
@@ -230,6 +252,12 @@ class Activities
         return $id;
     }
 
+    /**
+     * Updates an activity
+     *
+     * @param array $data Activity data
+     * @return int
+     */
     public function update(array $data)
     {
         $activity = $this->get($data['id']);
@@ -267,6 +295,33 @@ class Activities
         return $data['id'];
     }
 
+    /**
+     * Deletes an activity
+     *
+     * @param integer $id Activity ID
+     * @return array
+     */
+    public function delete(int $id)
+    {
+        setDb(
+            "DELETE FROM activities WHERE id = :id",
+            [
+                'id' => $id
+            ]
+        );
+
+        return [
+            'status' => 'success',
+            'id' => $id
+        ];
+    }
+
+    /**
+     * Generates an array of activities/tags for the autocomplete inputs
+     *
+     * @param array $params Search parameters
+     * @return array
+     */
     public function autocomplete(array $params)
     {
         $field = $params['field'];
