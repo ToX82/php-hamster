@@ -2,6 +2,7 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
     background: #FAFAFA;
     color: #555;
+    padding-bottom: 20px;
 }
 
 /*
@@ -43,9 +44,6 @@ body {
     float: left !important;
     position: absolute;
     right: 0;
-}
-.navbar .welcome a:hover {
-    text-decoration: none;
 }
 .topbar-bottom {
     background: #DDD !important;
@@ -126,6 +124,14 @@ table.touchable {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
+.tag::before {
+    content: '•';
+    font-size: 130%;
+    margin-left: -5px;
+    color: #555;
+    vertical-align: middle;
+    padding-right: 3px;
+}
 .bigtag {
     background: #FBF3BD;
     border: 1px solid #CAC083;
@@ -133,10 +139,31 @@ table.touchable {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
 }
+.bigtag::before {
+    content: '•';
+    font-size: 130%;
+    margin-left: -16px;
+    color: #555;
+    vertical-align: middle;
+    padding-right: 5px;
+}
+.edit {
+    display: block;
+    height: 22px;
+    width: 22px;
+    background: url(../img/edit.png) no-repeat;
+}
 
 /*
 * Totals
 */
+#totals fieldset {
+    padding-bottom: 15px;
+}
+#totals fieldset > div {
+    display: flex;
+    align-items: center;
+}
 #totals .name {
     display: inline-block;
     text-overflow: ellipsis;
@@ -158,95 +185,44 @@ table.touchable {
 }
 #totals .value {
     display: inline-block;
+    min-width: 30px;
     width: 10%;
     text-align: right;
 }
 
 /*
-* Autocomplete
-*/
-.autocomplete {
-    z-index: 999;
-    position: relative;
-}
-.autocompleteWrapper {
-    display: block;
-    position: absolute;
-    max-width: 100%;
-    max-height: 50vh;
-    overflow-y: auto;
-    min-width: 250px;
-    min-height: 20px;
-    background: #FFF;
-    border: 1px solid #CCC;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
-    z-index: 1001;
-}
-.autocompleteWrapper .item {
-    display: block;
-    cursor: default;
-    line-height: 2;
-    width: 100%;
-    padding: 7px 20px;
-}
-.autocompleteWrapper .item:hover {
-    color: #FFF;
-    background: #2196F3;
-}
-.autocompleteWrapper .inverted {
-    padding: 0.3em;
-    background: #2196F3;
-}
-.autocompleteWrapper .inverted a {
-    color: #FFF;
-}
-.autocompleteWrapper .inverted:hover {
-    color: #FFF;
-    background: #088B75;
-}
-.overlay {
-    background: transparent;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 998;
-  }
-
-/*
 * Scrollbar
 */
-::-webkit-scrollbar {
+.today ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
-::-webkit-scrollbar-button {
+.today ::-webkit-scrollbar-button {
     width: 0;
     height: 0;
 }
-::-webkit-scrollbar-thumb {
+.today ::-webkit-scrollbar-thumb {
     background: #2196F3;
     border: 0 none #FFF;
     border-radius: 50px;
 }
-::-webkit-scrollbar-thumb:hover {
+.today ::-webkit-scrollbar-thumb:hover {
     background: #2196F3;
 }
-::-webkit-scrollbar-thumb:active {
+.today ::-webkit-scrollbar-thumb:active {
     background: #2196F3;
 }
-::-webkit-scrollbar-track {
+.today ::-webkit-scrollbar-track {
     background: #FFF;
     border: 0 none #FFF;
     border-radius: 50px;
 }
-::-webkit-scrollbar-track:hover {
+.today ::-webkit-scrollbar-track:hover {
     background: #FFF;
 }
-::-webkit-scrollbar-track:active {
+.today ::-webkit-scrollbar-track:active {
     background: #C8ECE6;
 }
-::-webkit-scrollbar-corner {
+.today ::-webkit-scrollbar-corner {
     background: transparent;
 }

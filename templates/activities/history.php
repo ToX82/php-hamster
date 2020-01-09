@@ -1,13 +1,13 @@
 <form action='<?= buildUrl('history') ?>' method='post' class="row">
-    <div class="col-10 offset-1 col-md-4 offset-md-0 col-lg-2">
+    <div class="col-10 offset-1 col-md-4 offset-md-0 col-lg-3">
         <div class="form-group">
-            <input type="text" name="dates" class="form-control datepicker">
+            <input type="text" name="dates" class="form-control rangepicker">
             <input type="hidden" class="dates-start" name="start" value="<?= $activities['start'] ?>" data-nice="<?= $activities['startNice'] ?>">
             <input type="hidden" class="dates-end" name="end" value="<?= $activities['end'] ?>" data-nice="<?= $activities['endNice'] ?>">
         </div>
     </div>
 
-    <div class="col-10 offset-1 col-md-4 offset-md-4 offset-lg-6 form-inline">
+    <div class="col-10 offset-1 col-md-4 offset-md-4 offset-lg-5 form-inline">
         <div class="form-group">
             <input type="text" name="search" class="form-control" autocomplete="off" placeholder="<?= __('search') ?>" value="<?= $activities['search'] ?>">
             <button type="submit" class="btn btn-link">
@@ -36,7 +36,7 @@
             <div class="col-10 offset-1 col-md-12 offset-md-0 today">
                 <?php foreach ($activities['activities'] as $key => $day) { ?>
                     <h4>
-                        <?= toDate($key) ?>
+                        <?= toLocalizedDate($key) ?>
                         <span class="float-right"><?= ($activities['totalsPerDay'][$key] > 0) ? toHours($activities['totalsPerDay'][$key]) : '' ?></span>
                     </h4>
                     <table class="table compact">
@@ -48,7 +48,7 @@
                                 </td>
                                 <td style="width: auto"><?= $activity['activity'] ?> <span class="tag"><?= $activity['tag'] ?></span></td>
                                 <td class="text-right" style="width: 130px"><?= toHours($activity['duration_minutes']) ?></td>
-                                <td style="width: 50px"></td>
+                                <td style="width: 50px"><a class="edit" href="#"></a></td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -60,7 +60,7 @@
 
     <div class="tab-pane fade" id="totals" role="tabpanel">
         <div class="row">
-            <fieldset class="col-12 col-lg-7 mx-2">
+            <fieldset class="col-12 col-lg-7 mx-2 acitivities-totals">
                 <legend><?= __('activity') ?></legend>
                 <?php foreach ($activities['totalsAct'] as $name => $time) { ?>
                     <div>

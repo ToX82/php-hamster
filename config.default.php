@@ -10,6 +10,5 @@ $config = [
         'it',
         'en'
     ],
-    'default_language' => 'en',
-    'social_salt' => '67312351324623'
+    'default_language' => 'en'
 ];

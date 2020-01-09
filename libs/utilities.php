@@ -79,9 +79,66 @@ function toDate($date, $delimiter = ".")
     return date('d' . $delimiter . 'm' . $delimiter . 'Y', strtotime($date));
 }
 
+/**
+ * Trasforma la data in formato leggibile
+ *
+ * @param string $date Data
+ * @param string $delimiter Delimitatore data
+ * @return string
+ */
+function toLocalizedDate($date, $delimiter = " ")
+{
+    if ($date === '0000-00-00') {
+        return '-';
+    }
+
+    $strTime = strtotime($date);
+    $dayName = __(date('l', $strTime));
+    $monthName = __(date('M', $strTime));
+    $dayNumber  = date('d', $strTime);
+
+    return $dayName . $delimiter . $dayNumber . $delimiter . $monthName;
+}
+
 function toMysqlDate($date)
 {
-    return date('Y-m-d', strtotime($date));
+    if (!date_parse($date)) {
+        return null;
+    }
+
+    if (strpos($date, '/')) {
+        if (strpos($date, ' ')) {
+            $date = date_create_from_format('d/m/Y H:i:s', $date);
+        } else {
+            $date = date_create_from_format('d/m/Y', $date);
+        }
+    } else {
+        if (strpos($date, ' ')) {
+            $date = date_create_from_format('Y-m-d H:i:s', $date);
+        } else {
+            $date = date_create_from_format('Y-m-d', $date);
+        }
+    }
+
+    if ($date === false) {
+        return null;
+    }
+    return date_format($date, 'Y-m-d');
+}
+
+function toMysqlDateTime($date)
+{
+    if (strpos($date, '/')) {
+        $date = date_create_from_format('d/m/Y H:i:s', $date);
+    } else {
+        $date = date_create_from_format('Y-m-d H:i:s', $date);
+    }
+
+    if ($date === false) {
+        return null;
+    }
+
+    return date_format($date, 'Y-m-d H:i:s');
 }
 
 /**
@@ -116,7 +173,7 @@ function toDateTime($date, $delimiter = ".")
         return '-';
     }
 
-    return date('d' . $delimiter . 'm' . $delimiter . 'Y' . ' - ' . 'H:i', strtotime($date));
+    return date('d' . $delimiter . 'm' . $delimiter . 'Y' . ' - ' . 'H:i:s', strtotime($date));
 }
 
 /**
@@ -132,7 +189,7 @@ function toTime($date, $delimiter = ".")
         return '-';
     }
 
-    return date('H:i', strtotime($date));
+    return date('H:i:s', strtotime($date));
 }
 
 function timeDiffMinutes($start, $end)

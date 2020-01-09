@@ -19,7 +19,7 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-bs4@1/css/dataTables.bootstrap4.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4/dist/materia/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4/dist/flatly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1/dist/css/iziToast.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker@3/daterangepicker.min.css">
 
@@ -60,6 +60,7 @@
     <?php include('templates/elements/messaggi.php'); ?>
     <?php include('templates/elements/js-alert.php'); ?>
     <?php include('templates/elements/js-confirm.php'); ?>
+    <?php include('templates/elements/edit.php'); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1/dist/umd/popper.min.js"></script>

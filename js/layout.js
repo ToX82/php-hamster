@@ -51,6 +51,14 @@ $(document).ready(function() {
     */
     $('.datepicker').daterangepicker({
         autoapply: true,
+        singleDatePicker: true,
+        maxDate: moment(),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    });
+    $('.rangepicker').daterangepicker({
+        autoapply: true,
         ranges: {
             'Last 7 Days': [moment().subtract(6, 'days'), moment()],
             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
@@ -63,9 +71,7 @@ $(document).ready(function() {
             format: 'DD MMM YYYY'
         }
     });
-    $('.datepicker').on('apply.daterangepicker', function(ev, picker) {
-        $('.dates-start').val(picker.startDate.format('YYYY-MM-DD'));
-        $('.dates-end').val(picker.endDate.format('YYYY-MM-DD'));
+    $('.rangepicker').on('apply.daterangepicker', function() {
         $(this).closest('form').submit();
     });
 

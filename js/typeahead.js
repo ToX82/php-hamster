@@ -11,7 +11,7 @@ $(document).ready(function() {
         var $container = $(this).parent();
         var $wrapper = null;
         var search = $this.val();
-        var searchType = $this.attr('id');
+        var searchType = $this.attr('name');
 
         if ($container.find('.autocompleteWrapper').length < 1) {
             $body.append('<div class="overlay"></div>');
@@ -45,7 +45,7 @@ $(document).ready(function() {
         var $this = $(this);
         var $wrapper = $this.parent().find('.autocompleteWrapper');
         var search = $this.val();
-        var searchType = $this.attr('id');
+        var searchType = $this.attr('name');
 
         debouncer(function() {
             $.when(ajaxCall(search, searchType)).then(function(data) {

@@ -3,14 +3,21 @@ namespace Logics;
 
 class Activities
 {
-    private function validate($data)
+    private function validate(array $data)
     {
         $data['duration_minutes'] = isset($data['duration_minutes']) ? intval($data['duration_minutes']): 0;
+
+        if (isset($data['start'])) {
+            $data['start'] = toMysqlDateTime($data['start']);
+        }
+        if (isset($data['end']) && $data['end'] !== 'true') {
+            $data['end'] = toMysqlDateTime($data['end']);
+        }
 
         return $data;
     }
 
-    public function history($data = null)
+    public function history(array $data = [])
     {
         $search = (isset($data['search'])) ? $data['search'] : '';
         $start = (isset($data['start'])) ? $data['start'] : date('Y-m-1');
@@ -71,14 +78,11 @@ class Activities
      *
      * @return array
      */
-    public function dashboard($start = null, $end = null)
+    public function dashboard()
     {
-        if ($start === null) {
-            $start = date('Y-m-d');
-        }
-        if ($end === null) {
-            $end = date('Y-m-d');
-        }
+        $start = date('Y-m-d');
+        $end = date('Y-m-d');
+
         $pastActivities = $this->listActivities($start, $end, '');
         $current = $this->listCurrentActivities();
         $activities = array_merge($pastActivities, $current);
@@ -94,7 +98,7 @@ class Activities
         ];
     }
 
-    public function get($id)
+    public function get(int $id)
     {
         $data = getDb(
             "SELECT *
@@ -108,7 +112,7 @@ class Activities
         return $data;
     }
 
-    public function listActivities($start, $end, $search = '')
+    public function listActivities(string $start, string $end, string $search = '')
     {
         if ($search !== '') {
             $search = ' AND (activity LIKE "%' . $search . '%" OR tag LIKE "%' . $search . '%")';
@@ -165,7 +169,7 @@ class Activities
         return $data;
     }
 
-    public function save($data)
+    public function save(array $data)
     {
         $data = $this->validate($data);
 
@@ -175,11 +179,25 @@ class Activities
             $id = $this->update($data);
         }
 
-        return $id;
+        return [
+            'status' => 'success',
+            'id' => $id,
+            'data' => $data
+        ];
     }
 
-    public function create($data)
+    public function create(array $data)
     {
+        if (!isset($data['start'])) {
+            $data['start'] = date('Y-m-d H:i:s');
+        }
+        if (!isset($data['end'])) {
+            $data['end'] = null;
+            $data['duration_minutes'] = 0;
+        } else {
+            $data['duration_minutes'] = timeDiffMinutes($data['start'], $data['end']);
+        }
+
         $id = setDb(
             "INSERT INTO activities
             (activity, tag, start, end, duration_minutes)
@@ -188,28 +206,45 @@ class Activities
             [
                 'activity' => $data['activity'],
                 'tag' => $data['tag'],
-                'start' => date('Y-m-d H:i:s'),
-                'end' => null,
-                'duration_minutes' => 0
+                'start' => $data['start'],
+                'end' => $data['end'],
+                'duration_minutes' => $data['duration_minutes']
             ]
         );
 
         return $id;
     }
 
-    public function update($data)
+    public function update(array $data)
     {
         $activity = $this->get($data['id']);
-        $end = date('Y-m-d H:i:s');
-        $duration = timeDiffMinutes($activity[0]['start'], $end);
+
+        if (!isset($data['start'])) {
+            $data['start'] = $activity[0]['start'];
+        }
+        if (!isset($data['tag'])) {
+            $data['tag'] = $activity[0]['tag'];
+        }
+        if (!isset($data['activity'])) {
+            $data['activity'] = $activity[0]['activity'];
+        }
+
+        if ($data['end'] === 'true') {
+            $data['end'] = null;
+        }
+
+        $data['duration_minutes'] = timeDiffMinutes($data['start'], $data['end']);
 
         setDb(
             "UPDATE activities
-            SET end = :end, duration_minutes = :duration_minutes
+            SET activity = :activity, tag = :tag, start = :start, end = :end, duration_minutes = :duration_minutes
             WHERE id = :id",
             [
-                'end' => $end,
-                'duration_minutes' => $duration,
+                'activity' => $data['activity'],
+                'tag' => $data['tag'],
+                'start' => $data['start'],
+                'end' => $data['end'],
+                'duration_minutes' => $data['duration_minutes'],
                 'id' => $data['id']
             ]
         );
@@ -217,7 +252,7 @@ class Activities
         return $data['id'];
     }
 
-    public function autocomplete($params)
+    public function autocomplete(array $params)
     {
         $field = $params['field'];
         $search = $params['search'];

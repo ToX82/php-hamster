@@ -7,23 +7,48 @@ $(document).ready(function() {
     });
 
     if ($('.current').length > 0) {
-        var activity = $('.current td:nth(2)').contents().get(0).nodeValue;
-        var tag = $('.current td:nth(2) span').contents().get(0).nodeValue;
-        $('#activity').val(activity);
-        $('#tag').val(tag);
         startTracking(false);
     }
+
+    $('.today').on('click', '.edit', function() {
+        editRow($(this).closest('tr'));
+    });
+
+    $('#edit-modal input[name=tracking]').on('click', function() {
+        endTrackingCheckbox($(this));
+    });
+
+    $('.save-modal-activity').on('click', function() {
+        saveModalActivity();
+    });
+
+    $('.add-previous-activity').on('click', function() {
+        showEmptyModal();
+    });
 });
 
+/**
+ *
+ * @param {Boolean} isNew Indicates wether this is a new activity or not
+ */
 function startTracking(isNew) {
-    var activity = $('#activity').val();
-    var tag = $('#tag').val();
     var start = getCurrentTime(false);
     var time = getCurrentTime(true);
 
-    if (isNew === true) {
+    if (isNew === false) {
+        // this is not a new activity, it's probably a page refresh
+        // Let's get the activity data from the table
+        var activity = $('.current td:nth(2)').contents().get(0).nodeValue;
+        var tag = $('.current td:nth(2) span').contents().get(0).nodeValue;
+        $('[name=activity]').val(activity);
+        $('[name=tag]').val(tag);
+    } else {
+        // For newly created activities, let's save the item in the database
+        var activity = $('[name=activity]').val();
+        var tag = $('[name=tag]').val();
+
         saveActivity({action: 'save-activity', id: null, activity: activity, tag: tag});
-        newActivity(activity, tag, start, time);
+        newActivity(activity, tag, start, time, '', '0 min');
     }
 
     updateTitle(activity, tag);
@@ -41,22 +66,27 @@ function saveActivity(data) {
         url: url,
         data: data
     }).done(function(data) {
+        data = JSON.parse(data);
         var $row = $('.today tbody .current');
-        $row.attr('data-id', data);
+        if (data.status === 'success') {
+            $row.attr('data-id', data.id);
+        } else {
+            jsAlert('Wooops!');
+        }
     }).fail(function(jqXHR, textStatus) {
         console.log('Error!');
         console.log(textStatus);
     });
 }
 
-function newActivity(activity, tag, start, startTime) {
+function newActivity(activity, tag, start, startTime, endTime, duration) {
     var $table = $('.today tbody');
     var $row = $('<tr data-start="' + start + '" class="current"></tr>');
     $row.append('<td style="width: 100px">' + startTime + '</td>');
-    $row.append('<td style="width: 100px"></td>');
+    $row.append('<td style="width: 100px">' + endTime + '</td>');
     $row.append('<td style="width: ">' + activity + '<span class="tag">' + tag + '</span></td>');
-    $row.append('<td style="width: 130px">0 min</td>');
-    $row.append('<td style="width: 50px"></td>');
+    $row.append('<td style="width: 130px">' + duration + '</td>');
+    $row.append('<td style="width: 50px"><a class="edit" href="#"></a></td>');
 
     $table.append($row);
 }
@@ -109,7 +139,7 @@ function stopTracking() {
     newTotal = toHours(newTotal);
 
     updateTitle(title, '');
-    saveActivity({action: 'save-activity', id: id});
+    saveActivity({action: 'save-activity', id: id, end: end});
     $('.start-tracking').removeClass('hide');
     $('.stop-tracking').addClass('hide');
     $activity.removeClass('current');
@@ -118,6 +148,68 @@ function stopTracking() {
     $activity.find('td:nth(1)').html(endTime);
     $activity.find('td:nth(3)').html(diff);
     $dashboardTotal.find('span').html(newTotal);
+}
+
+function saveModalActivity() {
+    var $modal = $('#edit-modal');
+
+    var id = $modal.find('[name=id]').val();
+    var activity = $modal.find('[name=activity]').val();
+    var tag = $modal.find('[name=tag]').val();
+    var startDay = $modal.find('[name=startdate]').val();
+    var startTime = $modal.find('[name=starttime]').val();
+    var start = startDay + ' ' + startTime;
+    var endTime = $modal.find('[name=endtime]').val();
+    var end = startDay + ' ' + endTime;
+    var tracking = $modal.find('[name=tracking]').prop('checked');
+    var diff = '';
+
+    if (endTime === '') {
+        end = moment().format('DD/MM/YYYY HH:mm:ss');
+    }
+
+    diff = getTimeDiff(start, end);
+    diff = toHours(diff);
+
+    if (tracking === true) {
+        end = '';
+        diff = '';
+    }
+
+    saveActivity({action: 'save-activity', id: id, activity: activity, tag: tag, start: start, end: end});
+    $modal.modal('hide');
+
+    if (id === '') {
+        if (startDay == moment().format('DD/MM/YYYY')) {
+            newActivity(activity, tag, startTime, endTime, '');
+            updateTitle(activity, tag);
+            startTimer();
+            $('.start-tracking').addClass('hide');
+            $('.stop-tracking').removeClass('hide');
+        }
+    } else {
+        var $activity = $('.today tr[data-id=' + id + ']');
+        $activity.find('td:nth(0)').html(startTime);
+        $activity.find('td:nth(1)').html(endTime);
+        $activity.find('td:nth(2)').html(activity + '<span class="tag">' + tag + '</span>');
+        $activity.find('td:nth(3)').html(diff);
+
+        if (tracking === true) {
+            updateTitle(activity, tag);
+            $activity.addClass('current');
+            $('.start-tracking').addClass('hide');
+            $('.stop-tracking').removeClass('hide');
+            clearInterval(activityTimer);
+        } else {
+            $activity.removeClass('current');
+            clearInterval(activityTimer);
+            var title = $('.titles .activity').attr('data-stopped');
+            updateTitle(title, '');
+            $('.start-tracking').removeClass('hide');
+            $('.stop-tracking').addClass('hide');
+            startTimer();
+        }
+    }
 }
 
 function getCurrentTime(timeOnly) {
@@ -156,4 +248,78 @@ function toHours(minutes)
     }
 
     return minutes + 'min';
+}
+
+function findActivity(id) {
+    var result = $.Deferred();
+    var baseUrl = $('.baseUrl').html();
+    var url = baseUrl + 'ajax.php?action=find-activity&id=' + id;
+
+    $.ajax({
+        type: 'GET',
+        url: url
+    }).done(function(data) {
+        data = JSON.parse(data);
+        result.resolve(data[0]);
+    }).fail(function(jqXHR, textStatus) {
+        console.log('Error!');
+        console.log(textStatus);
+    });
+
+    return result.promise();
+}
+
+function editRow($row) {
+    var $editModal = $('#edit-modal');
+    var id = $row.attr('data-id');
+    var result = [];
+
+    result.push(findActivity(id));
+    $.when.apply($, result).then(function(data) {
+        var startDate = moment.utc(data.start).format('DD/MM/YYYY');
+        var startTime = moment.utc(data.start).format('HH:mm:ss');
+        var endTime = moment.utc(data.end).format('HH:mm:ss');
+
+        $editModal.modal('show');
+        $editModal.find('input[name=id]').val(data.id);
+        $editModal.find('input[name=startdate]').val(startDate);
+        $editModal.find('input[name=starttime]').val(startTime);
+        $editModal.find('input[name=endtime]').val(endTime);
+        $editModal.find('input[name=activity]').val(data.activity);
+        $editModal.find('input[name=tag]').val(data.tag);
+
+        if (data.end === null) {
+            $editModal.find('input[name=tracking]').prop('checked', true).attr('checked', true);
+            $editModal.find('input[name=endtime]').attr('disabled', true);
+        } else {
+            $editModal.find('input[name=tracking]').prop('checked', false).attr('checked', false);
+            $editModal.find('input[name=endtime]').attr('disabled', false);
+        }
+    });
+}
+
+function showEmptyModal() {
+    var $editModal = $('#edit-modal');
+    $editModal.modal('show');
+    $editModal.find('input[name=id]').val('');
+    $editModal.find('input[name=startdate]').val(moment().format('DD/MM/YYYY'));
+    $editModal.find('input[name=starttime]').val(moment().format('HH:mm:ss'));
+    $editModal.find('input[name=endtime]').val('');
+    $editModal.find('input[name=activity]').val('');
+    $editModal.find('input[name=tag]').val('');
+    $editModal.find('input[name=tracking]').prop('checked', true).attr('checked', true);
+    $editModal.find('input[name=endtime]').attr('disabled', true);
+}
+
+function endTrackingCheckbox($this) {
+    var $input = $('.modal input[name=endtime]');
+    var time = getCurrentTime(true);
+
+    if ($this.is(':checked')) {
+        $input.val('');
+        $input.attr('disabled', true);
+    } else {
+        $input.val(time);
+        $input.attr('disabled', false);
+    }
 }
