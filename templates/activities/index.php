@@ -1,5 +1,5 @@
 <div class="row mt-3">
-    <div class="col-12 col-md-6 titles">
+    <div class="col-12 titles">
         <h3>
             <span class="activity" data-stopped="<?= __('no_activity') ?>"><?= __('no_activity') ?></span>
             <span class="bigtag hide"></span>
