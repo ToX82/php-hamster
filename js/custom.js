@@ -22,6 +22,10 @@ $(document).ready(function() {
         saveModalActivity();
     });
 
+    $('.delete-modal-activity').on('click', function() {
+        deleteModalActivity();
+    });
+
     $('.add-previous-activity').on('click', function() {
         showEmptyModal();
     });
@@ -148,6 +152,33 @@ function stopTracking() {
     $activity.find('td:nth(1)').html(endTime);
     $activity.find('td:nth(3)').html(diff);
     $dashboardTotal.find('span').html(newTotal);
+}
+
+function deleteModalActivity() {
+    var $modal = $('#edit-modal');
+    var id = $modal.find('[name=id]').val();
+    var baseUrl = $('.baseUrl').html();
+    var url = baseUrl + 'ajax.php';
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            action: 'delete-activity',
+            id: id
+        }
+    }).done(function(data) {
+        data = JSON.parse(data);
+        var $row = $('.today tbody');
+        if (data.status === 'success') {
+            $row.find('[data-id='+ id +']').remove();
+        } else {
+            jsAlert('Wooops!');
+        }
+    }).fail(function(jqXHR, textStatus) {
+        console.log('Error!');
+        console.log(textStatus);
+    });
 }
 
 function saveModalActivity() {

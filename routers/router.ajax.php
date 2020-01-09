@@ -6,6 +6,10 @@ if (isset($_POST['action'])) {
         $objActivities = new logics\Activities();
         $data = filterArray($_POST);
         $return = $objActivities->save($data);
+    } elseif ($_POST['action'] === 'delete-activity') {
+        $objActivities = new logics\Activities();
+        $data = intval($_POST['id']);
+        $return = $objActivities->delete($data);
     } elseif ($_POST['action'] === 'autocomplete') {
         $objActivities = new logics\Activities();
         $data = filterArray($_POST);

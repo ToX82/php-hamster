@@ -186,6 +186,21 @@ class Activities
         ];
     }
 
+    public function delete(int $id)
+    {
+        setDb(
+            "DELETE FROM activities WHERE id = :id",
+            [
+                'id' => $id
+            ]
+        );
+
+        return [
+            'status' => 'success',
+            'id' => $id
+        ];
+    }
+
     public function create(array $data)
     {
         if (!isset($data['start'])) {
