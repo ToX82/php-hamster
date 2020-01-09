@@ -7,7 +7,6 @@
                     <th class="text-center"><?= __('user') ?></th>
                     <th class="text-center"><?= __('email') ?></th>
                     <th class="text-center"><?= __('creation') ?></th>
-                    <th class="text-center"><?= __('sessions') ?></th>
                     <th></th>
                 </tr>
             </thead>
@@ -18,7 +17,6 @@
                         <td><?= $usr['username'] ?></td>
                         <td><?= $usr['email'] ?></td>
                         <td><?= toDateTime($usr['created']) ?></td>
-                        <td><?= $usr['sessions_num'] ?></td>
                         <td class="text-right nowrap">
                             <?php if ($usr['id'] === $_SESSION['Usr']['id']) { ?>
                                 <?php if ($_SESSION['Usr']['role_name'] !== 'admin') { ?>
