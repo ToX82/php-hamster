@@ -33,7 +33,7 @@
 <div class="tab-content mb-3">
     <div class="tab-pane fade show active" id="activities" role="tabpanel">
         <div class="row">
-            <div class="col-10 offset-1 col-md-12 offset-md-0 today">
+            <div class="col-10 offset-1 col-md-12 offset-md-0 activity-list history">
                 <?php foreach ($activities['activities'] as $key => $day) { ?>
                     <h4>
                         <?= toLocalizedDate($key) ?>

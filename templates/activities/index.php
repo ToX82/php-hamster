@@ -25,7 +25,7 @@
 </div>
 
 <div class="row">
-    <div class="col-10 offset-1 col-md-12 offset-md-0 today">
+    <div class="col-10 offset-1 col-md-12 offset-md-0 activity-list">
         <table class="table compact">
             <tbody>
                 <?php foreach ($activities['activities'] as $activity) { ?>

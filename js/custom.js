@@ -10,7 +10,7 @@ $(document).ready(function() {
         startTracking(false);
     }
 
-    $('.today').on('click', '.edit', function() {
+    $('.activity-list').on('click', '.edit', function() {
         editRow($(this).closest('tr'));
     });
 
@@ -71,7 +71,7 @@ function saveActivity(data) {
         data: data
     }).done(function(data) {
         data = JSON.parse(data);
-        var $row = $('.today tbody .current');
+        var $row = $('.activity-list tbody .current');
         if (data.status === 'success') {
             $row.attr('data-id', data.id);
         } else {
@@ -84,7 +84,7 @@ function saveActivity(data) {
 }
 
 function newActivity(activity, tag, start, startTime, endTime, duration) {
-    var $table = $('.today tbody');
+    var $table = $('.activity-list tbody');
     var $row = $('<tr data-start="' + start + '" class="current"></tr>');
     $row.append('<td style="width: 100px">' + startTime + '</td>');
     $row.append('<td style="width: 100px">' + endTime + '</td>');
@@ -110,7 +110,7 @@ function updateTitle(activity, tag) {
 
 var activityTimer;
 function startTimer() {
-    var $activity = $('.today .current');
+    var $activity = $('.activity-list .current');
     var $dashboardTotal = $('.dashboard-total');
     var start = $activity.attr('data-start');
     var dashboardTotalMinutes = $dashboardTotal.attr('data-value');
@@ -119,6 +119,12 @@ function startTimer() {
         var end = getCurrentTime(false);
         var diff = getTimeDiff(start, end);
         var newTotal = parseInt(diff) + parseInt(dashboardTotalMinutes);
+
+        if (document.title === '..tracking - Project Hamster') {
+            document.title = 'tracking.. - Project Hamster';
+        } else {
+            document.title = '..tracking - Project Hamster';
+        }
 
         diff = toHours(diff);
         newTotal = toHours(newTotal);
@@ -129,7 +135,7 @@ function startTimer() {
 }
 
 function stopTracking() {
-    var $activity = $('.today .current');
+    var $activity = $('.activity-list .current');
     var $dashboardTotal = $('.dashboard-total');
     var dashboardTotalMinutes = $dashboardTotal.attr('data-value');
     var title = $('.titles .activity').attr('data-stopped');
@@ -142,6 +148,7 @@ function stopTracking() {
     diff = toHours(diff);
     newTotal = toHours(newTotal);
 
+    document.title = 'Dashboard - Project Hamster';
     updateTitle(title, '');
     saveActivity({action: 'save-activity', id: id, end: end});
     $('.start-tracking').removeClass('hide');
@@ -169,7 +176,7 @@ function deleteModalActivity() {
         }
     }).done(function(data) {
         data = JSON.parse(data);
-        var $row = $('.today tbody');
+        var $row = $('.activity-list tbody');
         if (data.status === 'success') {
             $row.find('[data-id='+ id +']').remove();
         } else {
@@ -219,7 +226,7 @@ function saveModalActivity() {
             $('.stop-tracking').removeClass('hide');
         }
     } else {
-        var $activity = $('.today tr[data-id=' + id + ']');
+        var $activity = $('.activity-list tr[data-id=' + id + ']');
         $activity.find('td:nth(0)').html(startTime);
         $activity.find('td:nth(1)').html(endTime);
         $activity.find('td:nth(2)').html(activity + '<span class="tag">' + tag + '</span>');
@@ -230,7 +237,7 @@ function saveModalActivity() {
             $activity.addClass('current');
             $('.start-tracking').addClass('hide');
             $('.stop-tracking').removeClass('hide');
-            clearInterval(activityTimer);
+            startTimer();
         } else {
             $activity.removeClass('current');
             clearInterval(activityTimer);
@@ -238,7 +245,7 @@ function saveModalActivity() {
             updateTitle(title, '');
             $('.start-tracking').removeClass('hide');
             $('.stop-tracking').addClass('hide');
-            startTimer();
+            clearInterval(activityTimer);
         }
     }
 }

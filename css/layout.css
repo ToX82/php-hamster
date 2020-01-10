@@ -22,8 +22,7 @@ body {
 * Header
 */
 .navbar {
-    background: linear-gradient(49deg, rgb(41, 46, 62) 0%, rgb(41, 46, 62) 0%, rgb(38, 62, 74) 70%, rgb(20, 50, 100) 100%) !important;
-    position: fixed;
+    background: #FAFAFA !important;
     width: 100%;
     z-index: 1010;
     padding: 0 20px;
@@ -34,9 +33,6 @@ body {
 }
 .navbar .right {
     line-height: 1.2em;
-}
-.navbar .right a {
-    color: #8BA3F3;
 }
 .navbar .welcome {
     padding: 0 20px 0 0;
@@ -100,21 +96,24 @@ table a:hover {
 table.touchable {
     cursor: pointer;
 }
-.today {
+.activity-list {
     background: #FFF;
     border: 1px solid #CCC;
     padding: 13px 10px;
     min-height: 250px;
-    max-height: 50vh;
+    height: calc(100vh - 350px);
     overflow-y: auto;
 }
-.today table td {
+.activity-list.history {
+    height: calc(100vh - 260px);
+}
+.activity-list table td {
     padding: 3px;
 }
-.today h4 span {
+.activity-list h4 span {
     margin-right: 50px;
 }
-.today .tag {
+.activity-list .tag {
     margin-left: 10px;
 }
 .tag {
@@ -193,36 +192,36 @@ table.touchable {
 /*
 * Scrollbar
 */
-.today ::-webkit-scrollbar {
+.activity-list ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
-.today ::-webkit-scrollbar-button {
+.activity-list ::-webkit-scrollbar-button {
     width: 0;
     height: 0;
 }
-.today ::-webkit-scrollbar-thumb {
+.activity-list ::-webkit-scrollbar-thumb {
     background: #2196F3;
     border: 0 none #FFF;
     border-radius: 50px;
 }
-.today ::-webkit-scrollbar-thumb:hover {
+.activity-list ::-webkit-scrollbar-thumb:hover {
     background: #2196F3;
 }
-.today ::-webkit-scrollbar-thumb:active {
+.activity-list ::-webkit-scrollbar-thumb:active {
     background: #2196F3;
 }
-.today ::-webkit-scrollbar-track {
+.activity-list ::-webkit-scrollbar-track {
     background: #FFF;
     border: 0 none #FFF;
     border-radius: 50px;
 }
-.today ::-webkit-scrollbar-track:hover {
+.activity-list ::-webkit-scrollbar-track:hover {
     background: #FFF;
 }
-.today ::-webkit-scrollbar-track:active {
+.activity-list ::-webkit-scrollbar-track:active {
     background: #C8ECE6;
 }
-.today ::-webkit-scrollbar-corner {
+.activity-list ::-webkit-scrollbar-corner {
     background: transparent;
 }
