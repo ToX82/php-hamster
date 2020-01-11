@@ -87,3 +87,6 @@
         </div>
     </div>
 </div>
+
+<div class="hide autocompleteHints" data-type="activity"><?= $hintActivities ?></div>
+<div class="hide autocompleteHints" data-type="tag"><?= $hintTags ?></div>

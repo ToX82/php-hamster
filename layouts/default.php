@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4/dist/flatly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1/dist/css/iziToast.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker@3/daterangepicker.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-typeahead@2/dist/jquery.typeahead.min.css">
 
         <link rel="stylesheet" href="<?= buildAssetUrl("css/libraries-hacks.css") ?>">
         <link rel="stylesheet" href="<?= buildAssetUrl("css/layout.css") ?>">
@@ -74,10 +75,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/moment@2/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-typeahead@2/dist/jquery.typeahead.js"></script>
 
     <script src="<?= buildAssetUrl("js/layout.js") ?>"></script>
     <script src="<?= buildAssetUrl("js/custom.js") ?>"></script>
-    <script src="<?= buildAssetUrl("js/typeahead.js") ?>"></script>
 
     <span class="baseUrl hide"><?= BASE_URL ?></span>
 </body>

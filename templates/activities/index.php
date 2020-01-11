@@ -7,15 +7,15 @@
     </div>
 </div>
 
-<div class="row mt-3 mb-5">
+<div class="row mt-3 mb-5 ">
     <div class="col-12 col-md-5">
-        <div class="form-group">
-            <input type="text" class="form-control autocomplete" autocomplete="off" name="activity" placeholder="<?= __('activity') ?>">
+        <div class="form-group typeahead__container">
+            <input type="text" class="js-typeahead form-control autocomplete prova" autocomplete="off" name="activity" placeholder="<?= __('activity') ?>">
         </div>
     </div>
     <div class="col-12 col-md-5">
-        <div class="form-group">
-            <input type="text" class="form-control autocomplete" autocomplete="off" name="tag" placeholder="<?= __('tag') ?>">
+        <div class="form-group typeahead__container">
+            <input type="text" class="js-typeahead form-control autocomplete" autocomplete="off" name="tag" placeholder="<?= __('tag') ?>">
         </div>
     </div>
     <div class="col-12 col-md-2 text-right">
@@ -56,3 +56,6 @@
         <a class="btn btn-primary" href="<?= buildUrl('history') ?>"><?= __('show_history') ?></a>
     </div>
 </div>
+
+<div class="hide autocompleteHints" data-type="activity"><?= $hintActivities ?></div>
+<div class="hide autocompleteHints" data-type="tag"><?= $hintTags ?></div>

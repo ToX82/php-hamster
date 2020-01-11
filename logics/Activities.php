@@ -319,30 +319,26 @@ class Activities
     /**
      * Generates an array of activities/tags for the autocomplete inputs
      *
-     * @param array $params Search parameters
+     * @param string $field Field to look for
      * @return array
      */
-    public function autocomplete(array $params)
+    public function autocomplete(string $field)
     {
-        $field = $params['field'];
-        $search = $params['search'];
-
-        if (!in_array($field, ['activity', 'tag'])) {
-            return [];
-        }
-
         $data = getDb(
             "SELECT COUNT($field) AS count, $field AS name, MAX(start) AS data
             FROM activities
             WHERE start BETWEEN (NOW() - INTERVAL 2 MONTH) AND NOW()
-            AND $field LIKE :search
             GROUP BY $field
             ORDER BY data DESC, count DESC",
             [
-                'search' => "%" . $search . "%"
             ]
         );
 
-        return $data;
+        $return = [];
+        foreach ($data as $record) {
+            $return[] = $record['name'];
+        }
+
+        return json_encode($return);
     }
 }

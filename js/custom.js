@@ -55,6 +55,8 @@ function startTracking(isNew) {
         newActivity(activity, tag, start, time, '', '0 min');
     }
 
+    $('[name=activity]').val('');
+    $('[name=tag]').val('');
     updateTitle(activity, tag);
     startTimer();
     $('.start-tracking').addClass('hide');

@@ -75,6 +75,27 @@ $(document).ready(function() {
         $(this).closest('form').submit();
     });
 
+
+    /*
+    * Autocomplete
+    */
+    $('.autocomplete').each(function() {
+        var $this = $(this);
+        var field = $this.attr('name');
+
+        $this.typeahead({
+            minLength: 0,
+            maxItem: 15,
+            hint: true,
+            accent: true,
+            searchOnFocus: true,
+            source: {
+                data: JSON.parse($('.autocompleteHints[data-type=' + field + ']').html())
+            },
+            debug: true
+        });
+    });
+
     /*
     * Toast per messaggi di sessione
     */
