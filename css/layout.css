@@ -199,8 +199,11 @@ table.touchable {
     overflow: auto;
     max-height: calc(100vh - 300px);
 }
+.typeahead__list li {
+    border-top: none;
+}
 .typeahead__item a:hover {
-    background: #DDF0FF !important;
+    background-color: #EEE !important;
 }
 .typeahead__item a {
     font-size: 14px;

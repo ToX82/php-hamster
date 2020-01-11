@@ -49,6 +49,24 @@ $(document).ready(function() {
     /*
     * Date picker
     */
+    var lang = $('html').attr('lang');
+    moment.locale(lang);
+    var ranges = {
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    };
+    if (lang === 'it') {
+        ranges = {
+            'Ultimi 7 Giorni': [moment().subtract(6, 'days'), moment()],
+            'Ultimi 30 Giorni': [moment().subtract(29, 'days'), moment()],
+            'Questo mese': [moment().startOf('month'), moment().endOf('month')],
+            'Mese scorso': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        };
+    }
+
+
     $('.datepicker').daterangepicker({
         autoapply: true,
         singleDatePicker: true,
@@ -59,19 +77,16 @@ $(document).ready(function() {
     });
     $('.rangepicker').daterangepicker({
         autoapply: true,
-        ranges: {
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
+        ranges: ranges,
         startDate: moment($('.dates-start').attr('data-nice'), 'DD/MM/YYYY'),
         endDate: moment($('.dates-end').attr('data-nice'), 'DD/MM/YYYY'),
         locale: {
             format: 'DD MMM YYYY'
         }
     });
-    $('.rangepicker').on('apply.daterangepicker', function() {
+    $('.rangepicker').on('apply.daterangepicker', function(ev, picker) {
+        $('.dates-start').val(picker.startDate.format('YYYY-MM-DD'));
+        $('.dates-end').val(picker.endDate.format('YYYY-MM-DD'));
         $(this).closest('form').submit();
     });
 
