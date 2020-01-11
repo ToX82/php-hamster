@@ -66,7 +66,6 @@ $(document).ready(function() {
         };
     }
 
-
     $('.datepicker').daterangepicker({
         autoapply: true,
         singleDatePicker: true,
@@ -90,25 +89,42 @@ $(document).ready(function() {
         $(this).closest('form').submit();
     });
 
+    /*
+    * Chart
+    */
+    if ($('#chart').length > 0) {
+        var data = $('.chartData').html();
+        var label = $('#chart').attr('data-label');
+        new Chartkick.ColumnChart(
+            'chart',
+            JSON.parse(data),
+            {
+                colors: ['#2C3E50'],
+                label: label
+            }
+        );
+    }
 
     /*
     * Autocomplete
     */
-    $('.autocomplete').each(function() {
-        var $this = $(this);
-        var field = $this.attr('name');
+    if ($('.autocomplete').length > 0) {
+        $('.autocomplete').each(function() {
+            var $this = $(this);
+            var field = $this.attr('name');
 
-        $this.typeahead({
-            minLength: 0,
-            maxItem: 15,
-            hint: true,
-            accent: true,
-            searchOnFocus: true,
-            source: {
-                data: JSON.parse($('.autocompleteHints[data-type=' + field + ']').html())
-            }
+            $this.typeahead({
+                minLength: 0,
+                maxItem: 15,
+                hint: true,
+                accent: true,
+                searchOnFocus: true,
+                source: {
+                    data: JSON.parse($('.autocompleteHints[data-type=' + field + ']').html())
+                }
+            });
         });
-    });
+    }
 
     /*
     * Toast per messaggi di sessione

@@ -100,6 +100,26 @@ function toLocalizedDate($date, $delimiter = " ")
     return $dayName . $delimiter . $dayNumber . $delimiter . $monthName;
 }
 
+/**
+ * Trasforma la data in formato leggibile
+ *
+ * @param string $date Data
+ * @param string $delimiter Delimitatore data
+ * @return string
+ */
+function toLocalizedShortDate($date, $delimiter = " ")
+{
+    if ($date === '0000-00-00') {
+        return '-';
+    }
+
+    $strTime = strtotime($date);
+    $monthName = __(date('M', $strTime));
+    $dayNumber  = date('d', $strTime);
+
+    return $dayNumber . $delimiter . $monthName;
+}
+
 function toMysqlDate($date)
 {
     if (!date_parse($date)) {

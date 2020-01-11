@@ -105,7 +105,7 @@ table.touchable {
     overflow-y: auto;
 }
 .activity-list.history {
-    height: calc(100vh - 260px);
+    height: calc(100vh - 380px);
 }
 .activity-list table td {
     padding: 3px;
@@ -211,6 +211,13 @@ table.touchable {
 }
 .modal .typeahead__result {
     margin-top: 37px;
+}
+
+/*
+* Chart
+*/
+#chart {
+    height: 120px;
 }
 
 /*

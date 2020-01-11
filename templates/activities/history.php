@@ -17,14 +17,18 @@
     </div>
 </form>
 
-<div class="row mb-4">
-    <div class="col-10 offset-1 col-md-8 offset-md-0">
-        <ul class="nav nav-pills" role="tablist">
+<div class="row">
+    <div id="chart" class="col-12 mb-4" data-label="<?= __('hours') ?>"></div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="att" data-toggle="pill" href="#activities" role="tab"><?= __('activities') ?></a>
+                <a class="nav-link active" id="att" data-toggle="tab" href="#activities" role="tab"><?= __('activities') ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tot" data-toggle="pill" href="#totals" role="tab"><?= __('totals') ?></a>
+                <a class="nav-link" id="tot" data-toggle="tab" href="#totals" role="tab"><?= __('totals') ?></a>
             </li>
         </ul>
     </div>
@@ -60,7 +64,7 @@
 
     <div class="tab-pane fade" id="totals" role="tabpanel">
         <div class="row">
-            <fieldset class="col-12 col-lg-7 mx-2 acitivities-totals">
+            <fieldset class="col-12 col-lg-7 acitivities-totals">
                 <legend><?= __('activity') ?></legend>
                 <?php foreach ($activities['totalsAct'] as $name => $time) { ?>
                     <div>
@@ -72,7 +76,7 @@
                     </div>
                 <?php } ?>
             </fieldset>
-            <fieldset class="col-12 col-lg-4 mx-2 tags-totals">
+            <fieldset class="col-12 col-lg-4 offset-lg-1 tags-totals">
                 <legend><?= __('tag') ?></legend>
                 <?php foreach ($activities['totalsTags'] as $name => $time) { ?>
                     <div>
@@ -88,5 +92,6 @@
     </div>
 </div>
 
+<div class="hide chartData"><?= json_encode($activities['chartData']) ?></div>
 <div class="hide autocompleteHints" data-type="activity"><?= $hintActivities ?></div>
 <div class="hide autocompleteHints" data-type="tag"><?= $hintTags ?></div>

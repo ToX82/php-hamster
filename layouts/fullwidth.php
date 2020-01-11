@@ -75,6 +75,9 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-typeahead@2/dist/jquery.typeahead.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartkick@3/dist/chartkick.min.js"></script>
+
     <script src="<?= buildAssetUrl("js/layout.js") ?>"></script>
     <script src="<?= buildAssetUrl("js/custom.js") ?>"></script>
 

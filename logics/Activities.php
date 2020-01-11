@@ -67,6 +67,12 @@ class Activities
             }
         }
 
+        $chartData = [];
+        foreach ($totalsPerDay as $day => $duration) {
+            $day = toLocalizedShortDate($day, " ");
+            $chartData[$day] = round($duration / 60, 1);
+        }
+
         uasort($totalsAct, "sortArray");
         uasort($totalsTags, "sortArray");
 
@@ -81,7 +87,8 @@ class Activities
             'totalsTags' => $totalsTags,
             'totalsPerDay' => $totalsPerDay,
             'topAct' => array_values($totalsAct)[0],
-            'topTags' => array_values($totalsTags)[0]
+            'topTags' => array_values($totalsTags)[0],
+            'chartData' => $chartData
         ];
     }
 

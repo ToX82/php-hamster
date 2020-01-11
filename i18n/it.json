@@ -9,6 +9,7 @@
     "back": "Indietro",
     "cancel": "Annulla",
     "creation": "Creazione",
+    "delete": "Elimina",
     "deleted_users_list": "Utenti cancellati",
     "edit_activity": "Modifica attività",
     "email_address_already_registered": "Questo indirizzo email \u00e8 gi\u00e0 registrato",
@@ -17,6 +18,7 @@
     "end": "Fine",
     "hello": "Ciao",
     "history": "Attività passate",
+    "hours": "Ore",
     "home_page": "Home page",
     "insert_email_address": "Inserisci un indirizzo email",
     "insert_password": "Inserisci una password",
@@ -68,7 +70,6 @@
     "you_will_receive_an_email_for_confirmation": "Ti verr\u00e0 inviata una mail per confermare la tua registrazione.",
     "add_previous_activity": "Aggiungi attività precedente",
     "show_history": "Mostra riepilogo",
-    "delete": "Elimina",
 
     "Monday": "Lunedì",
     "Tuesday": "Martedì",
