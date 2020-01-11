@@ -327,7 +327,6 @@ class Activities
         $data = getDb(
             "SELECT COUNT($field) AS count, $field AS name, MAX(start) AS data
             FROM activities
-            WHERE start BETWEEN (NOW() - INTERVAL 2 MONTH) AND NOW()
             GROUP BY $field
             ORDER BY data DESC, count DESC",
             [

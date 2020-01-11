@@ -10,12 +10,12 @@
 <div class="row mt-3 mb-5 ">
     <div class="col-12 col-md-5">
         <div class="form-group typeahead__container">
-            <input type="text" class="js-typeahead form-control autocomplete prova" autocomplete="off" name="activity" placeholder="<?= __('activity') ?>">
+            <input type="text" class="form-control autocomplete prova" autocomplete="off" name="activity" placeholder="<?= __('activity') ?>">
         </div>
     </div>
     <div class="col-12 col-md-5">
         <div class="form-group typeahead__container">
-            <input type="text" class="js-typeahead form-control autocomplete" autocomplete="off" name="tag" placeholder="<?= __('tag') ?>">
+            <input type="text" class="form-control autocomplete" autocomplete="off" name="tag" placeholder="<?= __('tag') ?>">
         </div>
     </div>
     <div class="col-12 col-md-2 text-right">

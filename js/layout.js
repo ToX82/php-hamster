@@ -91,8 +91,7 @@ $(document).ready(function() {
             searchOnFocus: true,
             source: {
                 data: JSON.parse($('.autocompleteHints[data-type=' + field + ']').html())
-            },
-            debug: true
+            }
         });
     });
 

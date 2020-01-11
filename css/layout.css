@@ -196,6 +196,13 @@ table.touchable {
     overflow: auto;
     max-height: calc(100vh - 300px);
 }
+.typeahead__item a:hover {
+    background: #DDF0FF !important;
+}
+.typeahead__item a {
+    font-size: 13px;
+    color: #505050 !important;
+}
 .modal .typeahead__result {
     margin-top: 37px;
 }

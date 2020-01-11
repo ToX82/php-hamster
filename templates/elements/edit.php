@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-8 col-md-6">
                         <div class="form-group typeahead__container">
-                            <input type="text" class="js-typeahead form-control autocomplete" autocomplete="off" name="activity" placeholder="<?= __('activity') ?>">
+                            <input type="text" class="form-control autocomplete" autocomplete="off" name="activity" placeholder="<?= __('activity') ?>">
                         </div>
                     </div>
                     <div class="col-4 col-md-1">
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-8 col-md-4">
                         <div class="form-group typeahead__container">
-                            <input type="text" class="js-typeahead form-control autocomplete" autocomplete="off" name="tag" placeholder="<?= __('tag') ?>">
+                            <input type="text" class="form-control autocomplete" autocomplete="off" name="tag" placeholder="<?= __('tag') ?>">
                         </div>
                     </div>
                 </div>
