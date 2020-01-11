@@ -192,6 +192,9 @@ table.touchable {
 /*
 * Autocomplete
 */
+.typeahead__container {
+    font-family: inherit;
+}
 .typeahead__list {
     overflow: auto;
     max-height: calc(100vh - 300px);
@@ -200,7 +203,7 @@ table.touchable {
     background: #DDF0FF !important;
 }
 .typeahead__item a {
-    font-size: 13px;
+    font-size: 14px;
     color: #505050 !important;
 }
 .modal .typeahead__result {
