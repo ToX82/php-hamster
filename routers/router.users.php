@@ -11,6 +11,7 @@ if (isset($_SESSION['Usr'])) {
             $pageTitle = "Elenco utenti";
             $users = $users->index(true);
             $sidebar = 'sidebar_users';
+
             $views[] = "templates/users/index.php";
         }
         if (isPage('impersona')) {
@@ -22,18 +23,11 @@ if (isset($_SESSION['Usr'])) {
 
     // These routes are only for admins logged in as admins
     if (in_array($_SESSION['Usr']['role_name'], ['admin'])) {
-        if (isPage('utenti-cancellati')) {
-            $users = new logics\Users();
-            $pageTitle = "Elenco utenti cancellati";
-            $users = $users->index(false);
-            $deleted = true;
-            $sidebar = 'sidebar_users';
-            $views[] = "templates/users/index.php";
-        }
         if (isPage('crea-utente')) {
             $users = new logics\Users();
             $pageTitle = "Crea nuovo utente";
             $sidebar = 'sidebar_users';
+
             $data = $users->new();
             $roles = $users->listRoles();
             $users = $users->list();
@@ -43,6 +37,7 @@ if (isset($_SESSION['Usr'])) {
             $users = new logics\Users();
             $pageTitle = "Modifica utente";
             $sidebar = 'sidebar_users';
+
             $userId = filterInt(1);
             $data = $users->get($userId);
             $roles = $users->listRoles();

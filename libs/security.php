@@ -26,29 +26,6 @@ function isNumber($number)
 }
 
 /**
- * Get a session variable
- *
- * @param string $name Session name
- * @return string
- */
-function getSession($name)
-{
-    return $_SESSION[$name];
-}
-
-/**
- * Writes a session variable
- *
- * @param string $name Session name
- * @param string $value Session value
- * @return void
- */
-function setSession($name, $value)
-{
-    $_SESSION[$name] = $value;
-}
-
-/**
  * Check if a GET variable exists
  *
  * @param string $val GET Variable's index

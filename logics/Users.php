@@ -263,11 +263,10 @@ class Users
 
         if ($status === 1) {
             $_SESSION['msg'] = ['type' => 'success', 'text' => __('user_restored_correctly')];
-            reload('/utenti');
         } else {
             $_SESSION['msg'] = ['type' => 'success', 'text' => __('user_deleted_correctly')];
-            reload('/utenti-cancellati');
         }
+        reload('/utenti');
     }
 
     /**

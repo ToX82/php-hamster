@@ -32,8 +32,8 @@ class Activities
     public function history(array $data = [])
     {
         $search = (isset($data['search'])) ? $data['search'] : '';
-        $start = (isset($data['start'])) ? $data['start'] : date('Y-m-1');
-        $end = (isset($data['end'])) ? $data['end'] : date('Y-m-t');
+        $start = (isset($data['start'])) ? $data['start'] : date('Y-m-d', strtotime('monday this week'));
+        $end = (isset($data['end'])) ? $data['end'] : date('Y-m-d', strtotime('sunday this week'));
 
         $activities = [];
         $totalsPerDay = [];
@@ -86,8 +86,8 @@ class Activities
             'totalsAct' => $totalsAct,
             'totalsTags' => $totalsTags,
             'totalsPerDay' => $totalsPerDay,
-            'topAct' => array_values($totalsAct)[0],
-            'topTags' => array_values($totalsTags)[0],
+            'topAct' => !empty($totalsAct) ? array_values($totalsAct)[0] : 0,
+            'topTags' => !empty($totalsTags) ? array_values($totalsTags)[0] : 0,
             'chartData' => $chartData
         ];
     }
