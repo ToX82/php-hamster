@@ -1,5 +1,5 @@
-<form action='<?= buildUrl('history') ?>' method='post' class="row">
-    <div class="col-10 offset-1 col-md-4 offset-md-0 col-lg-3">
+<form action='<?= buildUrl('history') ?>' method='post' class="row my-2">
+    <div class="col-6 col-md-4 offset-md-0 col-lg-3">
         <div class="form-group">
             <input type="text" name="dates" class="form-control rangepicker">
             <input type="hidden" class="dates-start" name="start" value="<?= $activities['start'] ?>" data-nice="<?= $activities['startNice'] ?>">
@@ -7,12 +7,14 @@
         </div>
     </div>
 
-    <div class="col-10 offset-1 col-md-4 offset-md-4 offset-lg-5 form-inline">
-        <div class="form-group">
+    <div class="col-6 col-md-4 offset-md-4 offset-lg-5">
+        <div class="input-group">
             <input type="text" name="search" class="form-control" autocomplete="off" placeholder="<?= __('search') ?>" value="<?= $activities['search'] ?>">
-            <button type="submit" class="btn btn-link">
-                <span class="iconify" data-icon="bx:bx-search-alt" data-inline="false" data-width="30"></span>
-            </button>
+            <div class="input-group-append">
+                <button class="input-group-text" type="submit">
+                    <span class="iconify" data-icon="bx:bx-search-alt" data-inline="false" data-width="22"></span>
+                </button>
+            </div>
         </div>
     </div>
 </form>

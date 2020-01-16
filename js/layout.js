@@ -99,7 +99,7 @@ $(document).ready(function() {
             'chart',
             JSON.parse(data),
             {
-                colors: ['#2C3E50'],
+                colors: ['#567'],
                 label: label
             }
         );
@@ -119,6 +119,7 @@ $(document).ready(function() {
                 hint: true,
                 accent: true,
                 searchOnFocus: true,
+                blurOnTab: true,
                 source: {
                     data: JSON.parse($('.autocompleteHints[data-type=' + field + ']').html())
                 }

@@ -19,13 +19,11 @@ if (isPage('login')) {
     if (checkExistPost("email")) {
         $users->login();
     }
-    $layout = 'fullwidth';
     $views[] = "templates/users/login.php";
 }
 
 if (isPage('register')) {
     $pageTitle = "Registrazione";
-    $layout = 'fullwidth';
 
     if (isset($_POST['email'])) {
         $data = filterArray($_POST);

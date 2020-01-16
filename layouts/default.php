@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="<?= $lang['short'] ?>">
     <head>
-        <meta charset="utf-8">
+    <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
         <meta name="mobile-web-app-capable" content="yes">
@@ -39,11 +39,7 @@
     <main>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12 col-md-4 col-xl-3 sidebar sidebar-sticky bg-light noprint">
-                    <?php include('templates/elements/' . $sidebar . '.php'); ?>
-                </div>
-
-                <div class="col-12 col-md-8 col-xl-9 main-content">
+                <div class="col-12 col-md-8 offset-md-2 main-content">
                     <div class="row">
                         <div class="col-12">
                             <?php
@@ -78,6 +74,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-typeahead@2/dist/jquery.typeahead.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartkick@3/dist/chartkick.min.js"></script>
 
     <script src="<?= buildAssetUrl("js/layout.js") ?>"></script>
     <script src="<?= buildAssetUrl("js/custom.js") ?>"></script>

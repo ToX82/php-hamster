@@ -6,7 +6,6 @@
 if (isPage('dashboard')) {
     $objActivities = new logics\Activities();
     $pageTitle = "Dashboard";
-    $layout = 'fullwidth';
 
     $activities = $objActivities->dashboard();
     $hintActivities = $objActivities->autocomplete('activity');
@@ -16,7 +15,6 @@ if (isPage('dashboard')) {
 if (isPage('history')) {
     $objActivities = new logics\Activities();
     $pageTitle = "Activities";
-    $layout = 'fullwidth';
 
     $data = filterArray($_POST);
     $activities = $objActivities->history($data);
