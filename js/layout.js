@@ -9,27 +9,9 @@ $(document).ready(function() {
         });
     }, 5 * 60 * 1000);
 
-    $('.password-field').each(function() {
-        var $this = $(this);
-        var name = $this.attr('id');
-        $this.attr('name', name);
-        $this.attr('type', 'password');
-    });
-
-    // Nei campi numerici faccio il replace di , con .
-    $('input.float').on('change', function() {
-        var $this = $(this);
-        var value = $this.val();
-        value = value.replace(',', '.');
-        $this.val(value);
-    });
-
-    // Cliccando su una riga di una tabella .touchable vado alla prima azione disponibile
-    $('body').on('click', 'table.touchable tbody tr', function() {
-        var link = $(this).find('a:first').attr('href');
-        window.location = link;
-    });
-
+    /*
+    * Bottom bar - menu extend
+    */
     $('.bottom-bar-extend').on('click', function() {
         $menu = $('.bottom-bar-extended');
         $menu.slideToggle();
@@ -138,12 +120,16 @@ $(document).ready(function() {
         });
     }
 
-    // Save last tab's selection
-    $('a[data-toggle="pill"]').on('click', function (e) {
-        //save the latest tab; use cookies if you like 'em better:
+    /*
+    * Save last tab's selection
+    */
+    $('a[data-toggle="tab"]').on('click', function (e) {
         localStorage.setItem('lastTab', $(e.target).attr('href'));
     });
-    //go to the latest tab, if it exists:
+
+    /*
+    * On page load go to the latest tab, if it needed
+    */
     var lastTab = localStorage.getItem('lastTab');
     if (lastTab) {
         $('a[href="' + lastTab + '"]').click();
