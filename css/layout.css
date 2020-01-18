@@ -17,6 +17,9 @@ body {
 .image {
     max-width: 100%;
 }
+.printonly {
+    display: none;
+}
 
 /*
 * Header

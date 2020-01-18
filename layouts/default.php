@@ -26,6 +26,7 @@
 
         <link rel="stylesheet" href="<?= buildAssetUrl("css/libraries-hacks.css") ?>">
         <link rel="stylesheet" href="<?= buildAssetUrl("css/layout.css") ?>">
+        <link rel="stylesheet" href="<?= buildAssetUrl("css/print.css") ?>" media="print">
 
         <script src="https://cdn.jsdelivr.net/npm/@iconify/iconify@1/dist/iconify.min.js"></script>
 

@@ -1,4 +1,4 @@
-<form action='<?= buildUrl('history') ?>' method='post' class="row my-2">
+<form action='<?= buildUrl('history') ?>' method='post' class="row my-2 noprint">
     <div class="col-6 col-md-4 offset-md-0 col-lg-3">
         <div class="form-group">
             <input type="text" name="dates" class="form-control rangepicker">
@@ -19,11 +19,11 @@
     </div>
 </form>
 
-<div class="row">
+<div class="row noprint">
     <div id="chart" class="col-12 mb-4" data-label="<?= __('hours') ?>"></div>
 </div>
 
-<div class="row">
+<div class="row noprint">
     <div class="col-12">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
@@ -54,7 +54,7 @@
                                 </td>
                                 <td style="width: auto"><?= $activity['activity'] ?> <span class="tag"><?= $activity['tag'] ?></span></td>
                                 <td class="text-right" style="width: 130px"><?= toHours($activity['duration_minutes']) ?></td>
-                                <td style="width: 50px"><a class="edit" href="#"></a></td>
+                                <td style="width: 50px"><a class="edit noprint" href="#"></a></td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -65,6 +65,7 @@
     </div>
 
     <div class="tab-pane fade" id="totals" role="tabpanel">
+        <h3 class="printonly"><?= __('worked_hours_report') ?> <?= $activities['search'] ?></h3>
         <div class="row">
             <fieldset class="col-12 col-lg-7 acitivities-totals">
                 <legend><?= __('activity') ?></legend>
