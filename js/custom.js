@@ -1,14 +1,14 @@
 $(document).ready(function() {
-    $('.start-tracking').on('click', function() {
-        startTracking(true);
-    });
-    $('.stop-tracking').on('click', function() {
-        stopTracking();
-    });
-
     if ($('.current').length > 0) {
         startTracking(false);
     }
+    $('.start-tracking').on('click', function() {
+        startTracking(true);
+    });
+
+    $('.stop-tracking').on('click', function() {
+        stopTracking();
+    });
 
     $('.activity-list').on('click', '.edit', function() {
         editRow($(this).closest('tr'));
@@ -31,36 +31,53 @@ $(document).ready(function() {
     });
 });
 
+var activityTimer;
+
 /**
  *
  * @param {Boolean} isNew Indicates wether this is a new activity or not
  */
 function startTracking(isNew) {
     var start = getCurrentTime(false);
-    var time = getCurrentTime(true);
+    var end = '';
+    var startTime = getCurrentTime(true);
+    var endTime = '';
+    var activityData = getACtivityData(isNew);
+    var duration = '-';
 
     if (isNew === false) {
-        // this is not a new activity, it's probably a page refresh
-        // Let's get the activity data from the table
-        var activity = $('.current td:nth(2)').contents().get(0).nodeValue;
-        var tag = $('.current td:nth(2) span').contents().get(0).nodeValue;
-        $('[name=activity]').val(activity);
-        $('[name=tag]').val(tag);
+        $('[name=activity]').val(activityData.activity);
+        $('[name=tag]').val(activityData.tag);
+        startTimer(activityData.activity);
     } else {
-        // For newly created activities, let's save the item in the database
-        var activity = $('[name=activity]').val();
-        var tag = $('[name=tag]').val();
-
-        saveActivity({action: 'save-activity', id: null, activity: activity, tag: tag});
-        newActivity(activity, tag, start, time, '', '0 min');
+        duration = updateTimeDifference();
+        saveActivity({action: 'save-activity', id: null, activity: activityData.activity, tag: activityData.tag});
+        newActivity(activityData.activity, activityData.tag, start, end, startTime, endTime, '', duration);
     }
 
     $('[name=activity]').val('');
     $('[name=tag]').val('');
-    updateTitle(activity, tag);
-    startTimer();
+    updateActivityHeader(activityData.activity, activityData.tag);
+    updatePageTitle(activityData.activity);
+    updateTimeDifference();
+
     $('.start-tracking').addClass('hide');
     $('.stop-tracking').removeClass('hide');
+}
+
+function getACtivityData(isNew) {
+    if (isNew === false) {
+        var activity = $('.current td:nth(2)').contents().get(0).nodeValue;
+        var tag = $('.current td:nth(2) span').contents().get(0).nodeValue;
+    } else {
+        var activity = $('[name=activity]').val();
+        var tag = $('[name=tag]').val();
+    }
+
+    return {
+        activity: activity,
+        tag: tag
+    }
 }
 
 function saveActivity(data) {
@@ -85,11 +102,11 @@ function saveActivity(data) {
     });
 }
 
-function newActivity(activity, tag, start, startTime, endTime, duration) {
+function newActivity(activity, tag, start, end, startTime, endTime, duration) {
     var $table = $('.activity-list tbody');
     var $row = $('<tr data-start="' + start + '" class="current"></tr>');
-    $row.append('<td style="width: 100px">' + startTime + '</td>');
-    $row.append('<td style="width: 100px">' + endTime + '</td>');
+    $row.append('<td style="width: 100px" title="' + start + '">' + startTime + '</td>');
+    $row.append('<td style="width: 100px" title="' + end + '">' + endTime + '</td>');
     $row.append('<td style="width: ">' + activity + '<span class="tag">' + tag + '</span></td>');
     $row.append('<td style="width: 130px">' + duration + '</td>');
     $row.append('<td style="width: 50px"><a class="edit" href="#"></a></td>');
@@ -97,43 +114,59 @@ function newActivity(activity, tag, start, startTime, endTime, duration) {
     $table.append($row);
 }
 
-function updateTitle(activity, tag) {
+function updateActivityHeader(activity, tag) {
     var $activity = $('.titles .activity');
     var $tag = $('.titles .bigtag');
 
     $activity.html(activity);
     $tag.html(tag);
 
-    $tag.removeClass('hide');
     if (tag === '') {
         $tag.addClass('hide');
+    } else {
+        $tag.removeClass('hide');
     }
 }
 
-var activityTimer;
-function startTimer() {
-    var $activity = $('.activity-list .current');
-    var $dashboardTotal = $('.dashboard-total');
-    var start = $activity.attr('data-start');
-    var dashboardTotalMinutes = $dashboardTotal.attr('data-value');
-
+function startTimer(title) {
     activityTimer = setInterval(function() {
-        var end = getCurrentTime(false);
-        var diff = getTimeDiff(start, end);
-        var newTotal = parseInt(diff) + parseInt(dashboardTotalMinutes);
-
-        if (document.title === '..tracking - Project Hamster') {
-            document.title = 'tracking.. - Project Hamster';
-        } else {
-            document.title = '..tracking - Project Hamster';
-        }
-
-        diff = toHours(diff);
-        newTotal = toHours(newTotal);
-
-        $activity.find('td:nth(3)').html(diff);
-        $dashboardTotal.find('span').html(newTotal);
+        updatePageTitle(title);
+        updateTimeDifference();
     }, 2000);
+}
+
+function updateTimeDifference() {
+    var $activities = $('.activity-list tr');
+    var $dashboardTotal = $('.dashboard-total');
+    var start = '';
+    var end = '';
+    var totalTime = 0;
+    var currentTime = 0;
+
+    $activities.each(function() {
+        start = $(this).find('td:nth(0)').attr('title');
+        end = $(this).find('td:nth(1)').attr('title');
+        if (end === '') {
+            end = getCurrentTime(false);
+            currentTime = getTimeDiff(start, end);
+            $(this).find('td:nth(3)').html(toHours(currentTime));
+        }
+        totalTime = totalTime + getTimeDiff(start, end);
+    });
+
+    currentTime = toHours(currentTime);
+    totalTime = toHours(totalTime);
+    $dashboardTotal.find('span').html(totalTime);
+
+    return currentTime;
+}
+
+function updatePageTitle(tag) {
+    if (document.title === '..tracking - ' + tag) {
+        document.title = 'tracking.. - ' + tag;
+    } else {
+        document.title = '..tracking - ' + tag;
+    }
 }
 
 function stopTracking() {
@@ -151,7 +184,7 @@ function stopTracking() {
     newTotal = toHours(newTotal);
 
     document.title = 'Dashboard - Project Hamster';
-    updateTitle(title, '');
+    updateActivityHeader(title, '');
     saveActivity({action: 'save-activity', id: id, end: end});
     $('.start-tracking').removeClass('hide');
     $('.stop-tracking').addClass('hide');
@@ -178,9 +211,18 @@ function deleteModalActivity() {
         }
     }).done(function(data) {
         data = JSON.parse(data);
-        var $row = $('.activity-list tbody');
         if (data.status === 'success') {
-            $row.find('[data-id='+ id +']').remove();
+            var $row = $('.activity-list tbody').find('[data-id='+ id +']');
+            if ($row.hasClass('current')) {
+                var title = $('.titles .activity').attr('data-stopped');
+                document.title = 'Dashboard - Project Hamster';
+                updateActivityHeader(title, '');
+                clearInterval(activityTimer);
+                $('.start-tracking').removeClass('hide');
+                $('.stop-tracking').addClass('hide');
+                updateTimeDifference();
+            }
+            $row.remove();
         } else {
             jsAlert('Wooops!');
         }
@@ -221,35 +263,39 @@ function saveModalActivity() {
 
     if (id === '') {
         if (startDay == moment().format('DD/MM/YYYY')) {
-            newActivity(activity, tag, startTime, endTime, '');
-            updateTitle(activity, tag);
-            startTimer();
-            $('.start-tracking').addClass('hide');
-            $('.stop-tracking').removeClass('hide');
+            newActivity(activity, tag, start, end, startTime, endTime, diff);
+            if (tracking === true) {
+                updateActivityHeader(activity, tag);
+                startTimer(activity);
+                $('.start-tracking').addClass('hide');
+                $('.stop-tracking').removeClass('hide');
+            }
         }
     } else {
         var $activity = $('.activity-list tr[data-id=' + id + ']');
-        $activity.find('td:nth(0)').html(startTime);
-        $activity.find('td:nth(1)').html(endTime);
+        $activity.find('td:nth(0)').html(startTime).attr('title', start);
+        $activity.find('td:nth(1)').html(endTime).attr('title', end);
         $activity.find('td:nth(2)').html(activity + '<span class="tag">' + tag + '</span>');
         $activity.find('td:nth(3)').html(diff);
 
         if (tracking === true) {
-            updateTitle(activity, tag);
             $activity.addClass('current');
+            updateActivityHeader(activity, tag);
+            startTimer(activity);
             $('.start-tracking').addClass('hide');
             $('.stop-tracking').removeClass('hide');
-            startTimer();
         } else {
             $activity.removeClass('current');
             clearInterval(activityTimer);
             var title = $('.titles .activity').attr('data-stopped');
-            updateTitle(title, '');
+            updateActivityHeader(title, '');
             $('.start-tracking').removeClass('hide');
             $('.stop-tracking').addClass('hide');
             clearInterval(activityTimer);
         }
     }
+
+    updateTimeDifference();
 }
 
 function getCurrentTime(timeOnly) {
@@ -263,8 +309,16 @@ function getCurrentTime(timeOnly) {
 }
 
 function getTimeDiff(start, end) {
-    var start = moment.utc(start, 'YYYY-MM-DD HH:mm:ss');
-    var end = moment.utc(end, 'YYYY-MM-DD HH:mm:ss');
+    if (start.indexOf("/") > -1) {
+        start = moment.utc(start, "DD/MM/YYYY HH:mm:ss").format('YYYY-MM-DD HH:mm:ss');
+    }
+    if (end.indexOf("/") > -1) {
+        end = moment.utc(end, "DD/MM/YYYY HH:mm:ss").format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    start = moment.utc(start, 'YYYY-MM-DD HH:mm:ss');
+    end = moment.utc(end, 'YYYY-MM-DD HH:mm:ss');
+
     var minutes = end.diff(start, 'minutes');
     var seconds = end.diff(start, 'seconds');
     var spareSeconds = seconds - (minutes * 60);
@@ -290,7 +344,7 @@ function toHours(minutes)
     return minutes + 'min';
 }
 
-function findActivity(id) {
+function readActivityData(id) {
     var result = $.Deferred();
     var baseUrl = $('.baseUrl').html();
     var url = baseUrl + 'ajax.php?action=find-activity&id=' + id;
@@ -314,7 +368,7 @@ function editRow($row) {
     var id = $row.attr('data-id');
     var result = [];
 
-    result.push(findActivity(id));
+    result.push(readActivityData(id));
     $.when.apply($, result).then(function(data) {
         var startDate = moment.utc(data.start).format('DD/MM/YYYY');
         var startTime = moment.utc(data.start).format('HH:mm:ss');
