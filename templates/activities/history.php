@@ -11,7 +11,12 @@
         <div class="input-group">
             <input type="text" name="search" class="form-control" autocomplete="off" placeholder="<?= __('search') ?>" value="<?= $activities['search'] ?>">
             <div class="input-group-append">
-                <button class="input-group-text" type="submit">
+                <button class="input-group-text empty-input" type="button">
+                    <span class="iconify" data-icon="feather:delete" data-inline="false" data-width="15"></span>
+                </button>
+            </div>
+            <div class="input-group-append">
+                <button class="input-group-text search-input" type="submit">
                     <span class="iconify" data-icon="bx:bx-search-alt" data-inline="false" data-width="22"></span>
                 </button>
             </div>
@@ -24,15 +29,20 @@
 </div>
 
 <div class="row noprint">
-    <div class="col-12">
-        <ul class="nav nav-tabs" role="tablist">
+    <div class="col-10">
+        <ul class="nav nav-pills" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="att" data-toggle="tab" href="#activities" role="tab"><?= __('activities') ?></a>
+                <a class="nav-link active" id="att" data-toggle="pill" href="#activities" role="pill"><?= __('activities') ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tot" data-toggle="tab" href="#totals" role="tab"><?= __('totals') ?></a>
+                <a class="nav-link" id="tot" data-toggle="pill" href="#totals" role="pill"><?= __('totals') ?></a>
             </li>
         </ul>
+    </div>
+    <div class="col-2 text-right">
+        <a href='#' class="print-page text-secondary">
+            <span class="iconify" data-icon="feather:printer" data-inline="false" data-width="30"></span>
+        </a>
     </div>
 </div>
 

@@ -19,8 +19,8 @@
         </div>
     </div>
     <div class="col-5 col-md-2 text-right">
-        <button type="button" class="btn btn-primary start-tracking"><?= __('start_tracking') ?></button>
-        <button type="button" class="btn btn-primary stop-tracking hide"><?= __('stop_tracking') ?></button>
+        <button type="button" class="btn btn-primary btn-block start-tracking"><?= __('start_tracking') ?></button>
+        <button type="button" class="btn btn-primary btn-block stop-tracking hide"><?= __('stop_tracking') ?></button>
     </div>
 </div>
 

@@ -18,6 +18,15 @@ $(document).ready(function() {
     });
 
     /*
+    * Search bar
+    */
+    $('.empty-input').on('click', function() {
+        var $inputGroup = $(this).closest('.input-group');
+        $inputGroup.find('input').val('');
+        $inputGroup.find('.search-input').click();
+    });
+
+    /*
     * Stampa
     */
     $('.print-page').on('click', function() {
@@ -123,7 +132,7 @@ $(document).ready(function() {
     /*
     * Save last tab's selection
     */
-    $('a[data-toggle="tab"]').on('click', function (e) {
+    $('a[data-toggle="pill"]').on('click', function (e) {
         localStorage.setItem('lastTab', $(e.target).attr('href'));
     });
 

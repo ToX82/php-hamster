@@ -67,10 +67,14 @@
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <a href="javascript: return false;" class="btn btn-secondary delete-modal-activity" data-dismiss="modal"><?= __('delete') ?></a>
-                <a href="javascript: return false;" class="btn btn-secondary" data-dismiss="modal"><?= __('cancel') ?></a>
-                <a href="javascript: return true;" class="btn btn-primary save-modal-activity"><?= __('save') ?></a>
+            <div class="modal-footer justify-content-between">
+                <div>
+                    <a href="javascript: return false;" class="btn btn-secondary delete-modal-activity" data-dismiss="modal"><?= __('delete') ?></a>
+                </div>
+                <div>
+                    <a href="javascript: return false;" class="btn btn-secondary" data-dismiss="modal"><?= __('cancel') ?></a>
+                    <a href="javascript: return true;" class="btn btn-primary save-modal-activity"><?= __('save') ?></a>
+                </div>
             </div>
         </div>
     </div>

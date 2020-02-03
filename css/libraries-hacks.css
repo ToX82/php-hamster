@@ -46,6 +46,9 @@ legend {
 .modal input[type="time"] {
     width: 100% !important;
 }
+.btn-block + .btn-block {
+    margin-top: 0;
+}
 
 /*
 * Media CSS
