@@ -122,9 +122,11 @@ class Activities
         $data = getDb(
             "SELECT *
             FROM activities
-            WHERE id = :id",
+            WHERE id = :id
+            AND user_id = :user_id",
             [
-                'id' => $id
+                'id' => $id,
+                'user_id' => $_SESSION['Usr']['id']
             ]
         );
 
@@ -159,10 +161,13 @@ class Activities
             FROM activities
             WHERE DATE(start) >= :start
             AND DATE(end) <= :end
-            $search",
+            AND user_id = :user_id
+            $search
+            ORDER BY start ASC",
             [
                 'start' => $start,
-                'end' => $end
+                'end' => $end,
+                'user_id' => $_SESSION['Usr']['id']
             ]
         );
 
@@ -193,8 +198,10 @@ class Activities
                 0 AS duration_nice,
                 'current' AS current
             FROM activities
-            WHERE end IS NULL",
+            WHERE end IS NULL
+            AND user_id = :user_id",
             [
+                'user_id' => $_SESSION['Usr']['id']
             ]
         );
 
@@ -244,10 +251,11 @@ class Activities
 
         $id = setDb(
             "INSERT INTO activities
-            (activity, tag, start, end, duration_minutes)
+            (user_id, activity, tag, start, end, duration_minutes)
             VALUES
-            (:activity, :tag, :start, :end, :duration_minutes)",
+            (:user_id, :activity, :tag, :start, :end, :duration_minutes)",
             [
+                'user_id' => $_SESSION['Usr']['id'],
                 'activity' => $data['activity'],
                 'tag' => $data['tag'],
                 'start' => $data['start'],
@@ -288,14 +296,16 @@ class Activities
         setDb(
             "UPDATE activities
             SET activity = :activity, tag = :tag, start = :start, end = :end, duration_minutes = :duration_minutes
-            WHERE id = :id",
+            WHERE id = :id
+            AND user_id = :user_id",
             [
                 'activity' => $data['activity'],
                 'tag' => $data['tag'],
                 'start' => $data['start'],
                 'end' => $data['end'],
                 'duration_minutes' => $data['duration_minutes'],
-                'id' => $data['id']
+                'id' => $data['id'],
+                'user_id' => $_SESSION['Usr']['id']
             ]
         );
 
@@ -311,9 +321,10 @@ class Activities
     public function delete(int $id)
     {
         setDb(
-            "DELETE FROM activities WHERE id = :id",
+            "DELETE FROM activities WHERE id = :id AND user_id = :user_id",
             [
-                'id' => $id
+                'id' => $id,
+                'user_id' => $_SESSION['Usr']['id']
             ]
         );
 
@@ -334,9 +345,11 @@ class Activities
         $data = getDb(
             "SELECT COUNT($field) AS count, $field AS name, MAX(start) AS data
             FROM activities
+            WHERE user_id = :user_id
             GROUP BY $field
             ORDER BY data DESC, count DESC",
             [
+                'user_id' => $_SESSION['Usr']['id']
             ]
         );
 

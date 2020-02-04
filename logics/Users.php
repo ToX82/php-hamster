@@ -220,21 +220,18 @@ class Users
     /**
      * Genera l'elenco degli utenti
      *
-     * @param boolean $active Seleziona gli utenti attivi o quelli cancellati
      * @return array
      */
-    public function index(bool $active = true)
+    public function index()
     {
         $users = getDb(
             "SELECT users.*, roles.name
             FROM users
             LEFT JOIN roles_users ON roles_users.user_id = users.id
             LEFT JOIN roles ON roles_users.role_id = roles.id
-            WHERE users.active = :active
             GROUP BY users.id
             ORDER BY created DESC",
             [
-                'active' => $active
             ]
         );
 
@@ -431,7 +428,7 @@ class Users
 
         // In creazione utente verifico sempre la password
         // Altrimenti la verifico solo se viene impostata
-        if ($data['password1'] !== '') {
+        if (isset($data['password1']) && $data['password1'] !== '') {
             $data['password'] = $data['password1'];
         }
 

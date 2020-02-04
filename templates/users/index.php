@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 <?php foreach ($users as $usr) { ?>
-                    <tr>
+                    <tr class="<?= $usr['active'] == 0 ? 'text-danger' : '' ?>">
                         <td><?= $usr['name'] ?></td>
                         <td><?= $usr['username'] ?></td>
                         <td><?= $usr['email'] ?></td>
