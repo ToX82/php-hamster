@@ -49,6 +49,9 @@ legend {
 .btn-block + .btn-block {
     margin-top: 0;
 }
+.border-secondary {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+}
 
 /*
 * Media CSS

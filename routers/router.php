@@ -49,7 +49,7 @@ if (!isset($_SESSION['Usr'])) {
 
 // Se non esiste un parametro nella URL seleziono la home page
 if (empty($params)) {
-    reload('/dashboard');
+    reload('dashboard');
 }
 
 // Carico gli altri routers

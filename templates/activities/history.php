@@ -1,7 +1,7 @@
 <form action='<?= buildUrl('history') ?>' method='post' class="row my-2 noprint">
     <div class="col-6 col-md-4 offset-md-0 col-lg-3">
         <div class="form-group">
-            <input type="text" name="dates" class="form-control rangepicker">
+            <input type="text" name="dates" class="form-control rangepicker border-secondary">
             <input type="hidden" class="dates-start" name="start" value="<?= $activities['start'] ?>" data-nice="<?= $activities['startNice'] ?>">
             <input type="hidden" class="dates-end" name="end" value="<?= $activities['end'] ?>" data-nice="<?= $activities['endNice'] ?>">
         </div>
@@ -9,7 +9,7 @@
 
     <div class="col-6 col-md-4 offset-md-4 offset-lg-5">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" autocomplete="off" placeholder="<?= __('search') ?>" value="<?= $activities['search'] ?>">
+            <input type="text" name="search" class="form-control border-secondary" autocomplete="off" placeholder="<?= __('search') ?>" value="<?= $activities['search'] ?>">
             <div class="input-group-append">
                 <button class="input-group-text empty-input" type="button">
                     <span class="iconify" data-icon="feather:delete" data-inline="false" data-width="15"></span>
@@ -32,7 +32,7 @@
     <div class="col-10">
         <ul class="nav nav-pills" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="att" data-toggle="pill" href="#activities" role="pill"><?= __('activities') ?></a>
+                <a class="nav-link" id="att" data-toggle="pill" href="#activities" role="pill"><?= __('activities') ?></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="tot" data-toggle="pill" href="#totals" role="pill"><?= __('totals') ?></a>
@@ -46,10 +46,10 @@
     </div>
 </div>
 
-<div class="tab-content mb-3">
-    <div class="tab-pane fade show active" id="activities" role="tabpanel">
+<div class="tab-content mt-1 mb-3">
+    <div class="tab-pane" id="activities" role="tabpanel">
         <div class="row">
-            <div class="col-10 offset-1 col-md-12 offset-md-0 activity-list history">
+            <div class="col-10 offset-1 col-md-12 offset-md-0 activity-list history card border-secondary">
                 <?php foreach ($activities['activities'] as $key => $day) { ?>
                     <h4>
                         <?= toLocalizedDate($key) ?>
@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="totals" role="tabpanel">
+    <div class="tab-pane" id="totals" role="tabpanel">
         <h3 class="printonly"><?= __('worked_hours_report') ?> <?= $activities['search'] ?></h3>
         <div class="row">
             <fieldset class="col-12 col-lg-7 acitivities-totals">

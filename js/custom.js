@@ -11,7 +11,7 @@ $(document).ready(function() {
     });
 
     $('.activity-list').on('click', '.edit', function() {
-        editRow($(this).closest('tr'));
+        editRow($(this).closest('.row'));
     });
 
     $('#edit-modal input[name=tracking]').on('click', function() {
@@ -45,73 +45,41 @@ function startTracking(isNew) {
     var activityData = getACtivityData(isNew);
     var duration = '-';
 
+    if (activityData.activity === '' || activityData.tag === '') {
+        return false;
+    }
+
     if (isNew === false) {
         $('[name=activity]').val(activityData.activity);
         $('[name=tag]').val(activityData.tag);
-        startTimer(activityData.activity);
     } else {
         duration = updateTimeDifference();
         saveActivity({action: 'save-activity', id: null, activity: activityData.activity, tag: activityData.tag});
         newActivity(activityData.activity, activityData.tag, start, end, startTime, endTime, '', duration);
     }
-
-    $('[name=activity]').val('');
-    $('[name=tag]').val('');
-    updateActivityHeader(activityData.activity, activityData.tag);
-    updatePageTitle(activityData.activity);
-    updateTimeDifference();
-
-    $('.start-tracking').addClass('hide');
-    $('.stop-tracking').removeClass('hide');
+    updateTrackerInterface('start', activityData.activity, activityData.tag);
 }
 
-function getACtivityData(isNew) {
-    if (isNew === false) {
-        var activity = $('.current td:nth(2)').contents().get(0).nodeValue;
-        var tag = $('.current td:nth(2) span').contents().get(0).nodeValue;
+function updateTrackerInterface(type, activity, tag) {
+    if (type === 'start') {
+        updateActivityHeader(activity, tag);
+        updatePageTitle(activity);
+        startTimer(activity);
+
+        $('.start-tracking').addClass('hide');
+        $('.stop-tracking').removeClass('hide');
     } else {
-        var activity = $('[name=activity]').val();
-        var tag = $('[name=tag]').val();
+        $current = $('.activity-list .current');
+        document.title = 'Dashboard - Project Hamster';
+        activity = $('.titles .activity').attr('data-stopped');
+        tag = '';
+        $('.start-tracking').removeClass('hide');
+        $('.stop-tracking').addClass('hide');
+        $current.removeClass('current');
+        clearInterval(activityTimer);
     }
-
-    return {
-        activity: activity,
-        tag: tag
-    }
-}
-
-function saveActivity(data) {
-    var baseUrl = $('.baseUrl').html();
-    var url = baseUrl + 'ajax.php/save-activity';
-
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: data
-    }).done(function(data) {
-        data = JSON.parse(data);
-        var $row = $('.activity-list tbody .current');
-        if (data.status === 'success') {
-            $row.attr('data-id', data.id);
-        } else {
-            jsAlert('Wooops!');
-        }
-    }).fail(function(jqXHR, textStatus) {
-        console.log('Error!');
-        console.log(textStatus);
-    });
-}
-
-function newActivity(activity, tag, start, end, startTime, endTime, duration) {
-    var $table = $('.activity-list tbody');
-    var $row = $('<tr data-start="' + start + '" class="current"></tr>');
-    $row.append('<td style="width: 100px" title="' + start + '">' + startTime + '</td>');
-    $row.append('<td style="width: 100px" title="' + end + '">' + endTime + '</td>');
-    $row.append('<td style="width: ">' + activity + '<span class="tag">' + tag + '</span></td>');
-    $row.append('<td style="width: 130px">' + duration + '</td>');
-    $row.append('<td style="width: 50px"><a class="edit" href="#"></a></td>');
-
-    $table.append($row);
+    updateActivityHeader(activity, tag);
+    updateTimeDifference();
 }
 
 function updateActivityHeader(activity, tag) {
@@ -136,7 +104,7 @@ function startTimer(title) {
 }
 
 function updateTimeDifference() {
-    var $activities = $('.activity-list tr');
+    var $activities = $('.activity-list .row');
     var $dashboardTotal = $('.dashboard-total');
     var start = '';
     var end = '';
@@ -144,12 +112,12 @@ function updateTimeDifference() {
     var currentTime = 0;
 
     $activities.each(function() {
-        start = $(this).find('td:nth(0)').attr('title');
-        end = $(this).find('td:nth(1)').attr('title');
+        start = $(this).find('.item:nth(0)').attr('title');
+        end = $(this).find('.item:nth(1)').attr('title');
         if (end === '') {
             end = getCurrentTime(false);
             currentTime = getTimeDiff(start, end);
-            $(this).find('td:nth(3)').html(toHours(currentTime));
+            $(this).find('.item:nth(3)').html(toHours(currentTime));
         }
         totalTime = totalTime + getTimeDiff(start, end);
     });
@@ -161,6 +129,55 @@ function updateTimeDifference() {
     return currentTime;
 }
 
+function getACtivityData(isNew) {
+    if (isNew === false) {
+        var activity = $('.current .item:nth(2)').contents().get(0).nodeValue;
+        var tag = $('.current .item:nth(2) span').contents().get(0).nodeValue;
+    } else {
+        var activity = $('[name=activity]').val();
+        var tag = $('[name=tag]').val();
+    }
+
+    return {
+        activity: activity,
+        tag: tag
+    }
+}
+
+function saveActivity(data) {
+    var baseUrl = $('.baseUrl').html();
+    var url = baseUrl + 'ajax.php/save-activity';
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: data
+    }).done(function(data) {
+        data = JSON.parse(data);
+        var $row = $('.activity-list .row.current');
+        if (data.status === 'success') {
+            $row.attr('data-id', data.id);
+        } else {
+            jsAlert('Wooops!');
+        }
+    }).fail(function(jqXHR, textStatus) {
+        console.log('Error!');
+        console.log(textStatus);
+    });
+}
+
+function newActivity(activity, tag, start, end, startTime, endTime, duration) {
+    var $table = $('.activity-list');
+    var $row = $('<div data-start="' + start + '" class="row current"></div>');
+    $row.append('<div class="col-2 col-lg-1 item" title="' + start + '">' + startTime + '</div>');
+    $row.append('<div class="col-2 col-lg-1 item" title="' + end + '">' + endTime + '</div>');
+    $row.append('<div class="col-5 col-lg-8 item">' + activity + '<span class="tag">' + tag + '</span></div>');
+    $row.append('<div class="col-2 col-lg-1 item">' + duration + '</div>');
+    $row.append('<div class="col-1 col-lg-1 item"><a class="edit" href="#"></a></div>');
+
+    $table.append($row);
+}
+
 function updatePageTitle(tag) {
     if (document.title === '..tracking - ' + tag) {
         document.title = 'tracking.. - ' + tag;
@@ -170,10 +187,9 @@ function updatePageTitle(tag) {
 }
 
 function stopTracking() {
-    var $activity = $('.activity-list .current');
+    var $activity = $('.activity-list .row.current');
     var $dashboardTotal = $('.dashboard-total');
     var dashboardTotalMinutes = $dashboardTotal.attr('data-value');
-    var title = $('.titles .activity').attr('data-stopped');
     var start = $activity.attr('data-start');
     var id = $activity.attr('data-id');
     var end = getCurrentTime(false);
@@ -184,15 +200,12 @@ function stopTracking() {
     newTotal = toHours(newTotal);
 
     document.title = 'Dashboard - Project Hamster';
-    updateActivityHeader(title, '');
+    updateTrackerInterface('stop', null, null);
     saveActivity({action: 'save-activity', id: id, end: end});
-    $('.start-tracking').removeClass('hide');
-    $('.stop-tracking').addClass('hide');
-    $activity.removeClass('current');
     clearInterval(activityTimer);
 
-    $activity.find('td:nth(1)').html(endTime);
-    $activity.find('td:nth(3)').html(diff);
+    $activity.find('.item:nth(1)').html(endTime);
+    $activity.find('.item:nth(3)').html(diff);
     $dashboardTotal.find('span').html(newTotal);
 }
 
@@ -212,17 +225,12 @@ function deleteModalActivity() {
     }).done(function(data) {
         data = JSON.parse(data);
         if (data.status === 'success') {
-            var $row = $('.activity-list tbody').find('[data-id='+ id +']');
+            var $row = $('.activity-list').find('[data-id='+ id +']');
             if ($row.hasClass('current')) {
-                var title = $('.titles .activity').attr('data-stopped');
-                document.title = 'Dashboard - Project Hamster';
-                updateActivityHeader(title, '');
-                clearInterval(activityTimer);
-                $('.start-tracking').removeClass('hide');
-                $('.stop-tracking').addClass('hide');
-                updateTimeDifference();
+                updateTrackerInterface('stop', null, null);
             }
             $row.remove();
+            updateTimeDifference();
         } else {
             jsAlert('Wooops!');
         }
@@ -258,6 +266,10 @@ function saveModalActivity() {
         diff = '';
     }
 
+    if (activity === '' || tag === '') {
+        return false;
+    }
+
     saveActivity({action: 'save-activity', id: id, activity: activity, tag: tag, start: start, end: end});
     $modal.modal('hide');
 
@@ -265,33 +277,22 @@ function saveModalActivity() {
         if (startDay == moment().format('DD/MM/YYYY')) {
             newActivity(activity, tag, start, end, startTime, endTime, diff);
             if (tracking === true) {
-                updateActivityHeader(activity, tag);
-                startTimer(activity);
-                $('.start-tracking').addClass('hide');
-                $('.stop-tracking').removeClass('hide');
+                updateTrackerInterface('start', activity, tag);
             }
         }
     } else {
-        var $activity = $('.activity-list tr[data-id=' + id + ']');
-        $activity.find('td:nth(0)').html(startTime).attr('title', start);
-        $activity.find('td:nth(1)').html(endTime).attr('title', end);
-        $activity.find('td:nth(2)').html(activity + '<span class="tag">' + tag + '</span>');
-        $activity.find('td:nth(3)').html(diff);
+        var $activity = $('.activity-list .row[data-id=' + id + ']');
+        $activity.find('.item:nth(0)').html(startTime).attr('title', start);
+        $activity.find('.item:nth(1)').html(endTime).attr('title', end);
+        $activity.find('.item:nth(2)').html(activity + '<span class="tag">' + tag + '</span>');
+        $activity.find('.item:nth(3)').html(diff);
 
         if (tracking === true) {
             $activity.addClass('current');
-            updateActivityHeader(activity, tag);
-            startTimer(activity);
-            $('.start-tracking').addClass('hide');
-            $('.stop-tracking').removeClass('hide');
+            updateTrackerInterface('start', activity, tag);
         } else {
             $activity.removeClass('current');
-            clearInterval(activityTimer);
-            var title = $('.titles .activity').attr('data-stopped');
-            updateActivityHeader(title, '');
-            $('.start-tracking').removeClass('hide');
-            $('.stop-tracking').addClass('hide');
-            clearInterval(activityTimer);
+            updateTrackerInterface('stop', null, null);
         }
     }
 
