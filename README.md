@@ -1,4 +1,5 @@
 # PHP HAMSTER
+This is a totaly unofficial php port of project hamster. I've used it for many years, loved it, needed it and missed it when it became unmaintained... so I've re-made it.
 
 ## INSTALLATION
 1. Import the db
