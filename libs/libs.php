@@ -48,7 +48,7 @@ function debug($var)
  */
 function openDb()
 {
-    require 'config.php';
+    include APP_ROOT . "config.php";
     static $connessione;
     if (!isset($connessione)) {
         try {

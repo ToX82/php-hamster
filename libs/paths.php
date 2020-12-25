@@ -1,8 +1,7 @@
 <?php
-define('BASE_PATH', basePath() . "/");
 define('BASE_URL', baseUrl() . "/");
 
-require_once BASE_PATH . 'vendor/autoload.php';
+require_once APP_ROOT . 'vendor/autoload.php';
 
 /**
  * Check if a GET variable exists
@@ -108,7 +107,7 @@ function buildUrl($params)
 function buildAssetUrl($asset)
 {
     $assetUrl = BASE_URL . $asset;
-    $assetPath = BASE_PATH . $asset;
+    $assetPath = APP_ROOT . 'public/' . $asset;
     return $assetUrl . "?" . filemtime($assetPath);
 }
 

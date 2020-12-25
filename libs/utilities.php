@@ -15,7 +15,7 @@ function __($string)
     $lang = setCookieLanguage($lang);
 
     $return = '';
-    $data = file_get_contents(BASE_PATH . "/i18n/" . $lang . ".json");
+    $data = file_get_contents(APP_ROOT . "/i18n/" . $lang . ".json");
     $data = json_decode($data, true);
 
     if (!isset($data[$string]) || $data[$string] === '') {

@@ -34,7 +34,7 @@
     </head>
 <body data-language="<?= $lang['full'] ?>">
     <div class="noprint">
-        <?php include('templates/elements/topbar.php'); ?>
+        <?php include(APP_ROOT . 'templates/elements/topbar.php'); ?>
     </div>
 
     <main>
@@ -45,7 +45,7 @@
                         <div class="col-12">
                             <?php
                             foreach ($views as $view) {
-                                include_once($view);
+                                include_once(APP_ROOT . $view);
                             }
                             ?>
                         </div>
@@ -56,13 +56,13 @@
     </main>
 
     <div class="noprint">
-        <?php include('templates/elements/topbar_bottom.php'); ?>
+        <?php include(APP_ROOT . 'templates/elements/topbar_bottom.php'); ?>
     </div>
 
-    <?php include('templates/elements/messaggi.php'); ?>
-    <?php include('templates/elements/js-alert.php'); ?>
-    <?php include('templates/elements/js-confirm.php'); ?>
-    <?php include('templates/elements/edit.php'); ?>
+    <?php include(APP_ROOT . 'templates/elements/messaggi.php'); ?>
+    <?php include(APP_ROOT . 'templates/elements/js-alert.php'); ?>
+    <?php include(APP_ROOT . 'templates/elements/js-confirm.php'); ?>
+    <?php include(APP_ROOT . 'templates/elements/edit.php'); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1/dist/umd/popper.min.js"></script>
