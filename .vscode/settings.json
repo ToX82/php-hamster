@@ -2,6 +2,6 @@
     "editor.rulers": [
         120
     ],
-    "phpcs.standard": "PSR2",
+    "phpcs.standard": "PSR12",
     "workbench.colorCustomizations": {}
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Logics;
 
 class Activities
@@ -11,7 +12,7 @@ class Activities
      */
     private function validate(array $data)
     {
-        $data['duration_minutes'] = isset($data['duration_minutes']) ? intval($data['duration_minutes']): 0;
+        $data['duration_minutes'] = isset($data['duration_minutes']) ? intval($data['duration_minutes']) : 0;
 
         if (isset($data['start'])) {
             $data['start'] = toMysqlDateTime($data['start']);
@@ -117,6 +118,12 @@ class Activities
         ];
     }
 
+    /**
+     * Get single activity
+     *
+     * @param int $id
+     * @return array
+     */
     public function get(int $id)
     {
         $data = getDb(

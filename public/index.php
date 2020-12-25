@@ -1,4 +1,5 @@
 <?php
+
 $pageTitle = "Project Hamster";
 define('APP_ROOT', realpath('../') . '/');
 

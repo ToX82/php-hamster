@@ -1,4 +1,5 @@
 <?php
+
 define('APP_ROOT', realpath('../') . '/');
 include APP_ROOT . "config.php";
 include APP_ROOT . "libs/libs.php";
