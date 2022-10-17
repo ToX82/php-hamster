@@ -6,6 +6,15 @@
  */
 function init()
 {
+    if (!is_file(__DIR__ . '/../vendor/autoload.php')) {
+        echo file_get_contents(__DIR__ . '/../firstrun.html');
+        die;
+    }
+    if (!is_file(__DIR__ . '/../config.php')) {
+        echo file_get_contents(__DIR__ . '/../firstrun_config.html');
+        die;
+    }
+
     require_once __DIR__ . "/utilities.php";
     require_once __DIR__ . "/paths.php";
     require_once __DIR__ . "/security.php";
