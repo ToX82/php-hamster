@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <label for="password2"><?= __('password_repeat') ?></label>
-            <input type="password" id="password2" class="form-control password-field required">
+            <input type="password" id="password2" class="form-control password-field required" name="password2">
         </div>
 
         <p class="text-primary">
