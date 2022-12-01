@@ -65,6 +65,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row form-inline my-3">
+                    <div class="col-4 col-md-1">
+                        <label><?= __('description') ?></label>
+                    </div>
+                    <div class="col-8 col-md-6">
+                        <textarea class="form-control autocomplete w-100" style="height: 150px" maxlength="255" autocomplete="off" name="description" placeholder="<?= __('description_placeholder') ?>"></textarea>
+                    </div>
+                </div>
             </div>
 
             <div class="modal-footer justify-content-between">
