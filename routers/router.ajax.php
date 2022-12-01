@@ -1,4 +1,5 @@
 <?php
+
 $return = null;
 
 if (isset($_POST['action'])) {

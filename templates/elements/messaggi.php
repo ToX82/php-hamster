@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_SESSION['msg'])) {
     $text = $_SESSION['msg']['text'];
     $style = $_SESSION['msg']['type'];

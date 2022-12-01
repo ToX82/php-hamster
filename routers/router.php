@@ -1,4 +1,5 @@
 <?php
+
 $params = trim($_SERVER['QUERY_STRING'], '/');
 $params = explode("/", $params);
 $params = array_filter($params, 'strlen');

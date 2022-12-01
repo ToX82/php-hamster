@@ -1,9 +1,9 @@
 <?php
+
 namespace Logics;
 
 class Users
 {
-
     /**
      * Autologin - in base alla presenza di un cookie
      *

@@ -1,4 +1,5 @@
 <?php
+
 // Materialize alert modal
 ?>
 
