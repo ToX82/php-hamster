@@ -11,6 +11,8 @@
     "creation": "Creazione",
     "delete": "Elimina",
     "deleted_users_list": "Utenti cancellati",
+    "description": "Descr.",
+    "description_placeholder": "Descrizione",
     "edit_activity": "Modifica attività",
     "email_address_already_registered": "Questo indirizzo email \u00e8 gi\u00e0 registrato",
     "email_or_password_incorrect": "Email o password non corretti",

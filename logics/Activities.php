@@ -163,6 +163,7 @@ class Activities
                 TIME(end) AS time_end,
                 activity,
                 tag,
+                description,
                 duration_minutes,
                 '' AS current
             FROM activities
@@ -201,6 +202,7 @@ class Activities
                 TIME(end) AS time_end,
                 activity,
                 tag,
+                description,
                 duration_minutes,
                 0 AS duration_nice,
                 'current' AS current
@@ -258,13 +260,14 @@ class Activities
 
         $id = setDb(
             "INSERT INTO activities
-            (user_id, activity, tag, start, end, duration_minutes)
+            (user_id, activity, tag, description, start, end, duration_minutes)
             VALUES
-            (:user_id, :activity, :tag, :start, :end, :duration_minutes)",
+            (:user_id, :activity, :tag, :description, :start, :end, :duration_minutes)",
             [
                 'user_id' => $_SESSION['Usr']['id'],
                 'activity' => $data['activity'],
                 'tag' => $data['tag'],
+                'description' => $data['description'],
                 'start' => $data['start'],
                 'end' => $data['end'],
                 'duration_minutes' => $data['duration_minutes']
@@ -290,6 +293,9 @@ class Activities
         if (!isset($data['tag'])) {
             $data['tag'] = $activity[0]['tag'];
         }
+        if (!isset($data['description'])) {
+            $data['description'] = $activity[0]['description'];
+        }
         if (!isset($data['activity'])) {
             $data['activity'] = $activity[0]['activity'];
         }
@@ -302,12 +308,13 @@ class Activities
 
         setDb(
             "UPDATE activities
-            SET activity = :activity, tag = :tag, start = :start, end = :end, duration_minutes = :duration_minutes
+            SET activity = :activity, tag = :tag, description = :description, start = :start, end = :end, duration_minutes = :duration_minutes
             WHERE id = :id
             AND user_id = :user_id",
             [
                 'activity' => $data['activity'],
                 'tag' => $data['tag'],
+                'description' => $data['description'],
                 'start' => $data['start'],
                 'end' => $data['end'],
                 'duration_minutes' => $data['duration_minutes'],

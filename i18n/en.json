@@ -11,6 +11,8 @@
     "creation": "Creation",
     "delete": "Delete",
     "deleted_users_list": "Deleted users list",
+    "description": "Descr.",
+    "description_placeholder": "Description",
     "edit_activity": "Edit activity",
     "email_address_already_registered": "This email address is already registere",
     "email_or_password_incorrect": "Email or password incorrect",

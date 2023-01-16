@@ -11,6 +11,7 @@ CREATE TABLE `activities` (
   `user_id` int(11) NOT NULL,
   `activity` varchar(255) NOT NULL,
   `tag` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime DEFAULT NULL,
   `duration_minutes` int(11) NOT NULL DEFAULT 0,
