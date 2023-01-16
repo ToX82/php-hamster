@@ -63,6 +63,7 @@
                                     <?= $activity['time_start'] ?> - <?= $activity['time_end'] ?>
                                 </td>
                                 <td style="width: auto"><?= $activity['activity'] ?> <span class="tag"><?= $activity['tag'] ?></span></td>
+                                <td style="width: auto"><span class="description"><?= $activity['description'] ?></span></td>
                                 <td class="text-right" style="width: 130px"><?= toHours($activity['duration_minutes']) ?></td>
                                 <td style="width: 50px"><a class="edit noprint" href="#"></a></td>
                             </tr>

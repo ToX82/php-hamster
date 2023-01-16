@@ -175,8 +175,8 @@ function newActivity(activity, tag, description, start, end, startTime, endTime,
     var $row = $('<div data-start="' + start + '" class="row current"></div>');
     $row.append('<div class="col-2 col-lg-1 item" title="' + start + '">' + startTime + '</div>');
     $row.append('<div class="col-2 col-lg-1 item" title="' + end + '">' + endTime + '</div>');
-    $row.append('<div class="col-2 col-lg-2 item">' + activity + '<span class="tag">' + tag + '</span></div>');
-    $row.append('<div class="col-3 col-lg-6 item">' + description + '</div>');
+    $row.append('<div class="col-2 col-lg-3 item">' + activity + '<span class="tag">' + tag + '</span></div>');
+    $row.append('<div class="col-3 col-lg-5 item"><p class="description">' + description + '</p></div>');
     $row.append('<div class="col-2 col-lg-1 item">' + duration + '</div>');
     $row.append('<div class="col-1 col-lg-1 item"><a class="edit" href="#"></a></div>');
 
@@ -291,7 +291,7 @@ function saveModalActivity() {
         $activity.find('.item:nth(0)').html(startTime).attr('title', start);
         $activity.find('.item:nth(1)').html(endTime).attr('title', end);
         $activity.find('.item:nth(2)').html(activity + '<span class="tag">' + tag + '</span>');
-        $activity.find('.item:nth(3)').html(description);
+        $activity.find('.item:nth(3)').html('<p class="description">' + description + '</p>');
         $activity.find('.item:nth(4)').html(diff);
 
         if (tracking === true) {

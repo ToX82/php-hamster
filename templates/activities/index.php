@@ -25,7 +25,7 @@
 </div>
 
 <div class="row mb-2">
-    <div class="col-7 col-md-9 col-lg-10">
+    <div class="col-12 col-md-12 col-lg-12">
         <div class="form-group typeahead__container">
             <textarea class="form-control autocomplete w-100" style="height: 80px; resize:none" maxlength="255" autocomplete="off" name="description" placeholder="<?= __('description_placeholder') ?>"></textarea>
         </div>
@@ -42,7 +42,7 @@
                 <div class="col-2 col-lg-1 item" title="<?= $activity['start'] ?>"><?= $activity['time_start'] ?></div>
                 <div class="col-2 col-lg-1 item" title="<?= $activity['end'] ?>"><?= $activity['time_end'] ?></div>
                 <div class="col-2 col-lg-3 item"><?= $activity['activity'] ?><span class="tag"><?= $activity['tag'] ?></span></div>
-                <div class="col-3 col-lg-5 item"><?= $activity['description'] ?></div>
+                <div class="col-3 col-lg-5 item"><p class="description"><?= $activity['description'] ?></p></div>
                 <div class="col-2 col-lg-1 item"><?= $activity['duration_nice'] ?></div>
                 <div class="col-1 col-lg-1 item"><a class="edit" href="#"></a></div>
             </div>
