@@ -84,7 +84,7 @@ function baseUrl()
 {
     $path = str_replace('/index.php', '', $_SERVER['PHP_SELF']);
 
-    return 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$path}";
+    return 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $path;
 }
 
 /**

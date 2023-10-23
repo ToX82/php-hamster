@@ -1,7 +1,7 @@
 <?php
 
 $pageTitle = "Project Hamster";
-define('APP_ROOT', realpath('../') . '/');
+define('APP_ROOT', dirname(__DIR__) . '/');
 
 include APP_ROOT . "config.php";
 include APP_ROOT . "libs/libs.php";
